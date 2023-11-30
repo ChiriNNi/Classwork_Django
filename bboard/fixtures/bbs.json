@@ -1,0 +1,106 @@
+[
+  {
+    "model": "bboard.bb",
+    "pk": 1,
+    "fields": {
+      "rubric": 2,
+      "title": "Машина",
+      "content": "Крутая",
+      "price": "2222.00",
+      "is_activate": true,
+      "published": "2023-11-28T13:27:58.128Z",
+      "updated": "2023-11-28T13:27:58.128Z"
+    }
+  },
+  {
+    "model": "bboard.bb",
+    "pk": 2,
+    "fields": {
+      "rubric": 2,
+      "title": "1234",
+      "content": "dggf",
+      "price": "123.00",
+      "is_activate": true,
+      "published": "2023-11-28T13:57:59.026Z",
+      "updated": "2023-11-28T13:57:59.026Z"
+    }
+  },
+  {
+    "model": "bboard.bb",
+    "pk": 3,
+    "fields": {
+      "rubric": 1,
+      "title": "1234",
+      "content": "dasda",
+      "price": "22222.00",
+      "is_activate": true,
+      "published": "2023-11-28T14:10:45.645Z",
+      "updated": "2023-11-28T14:10:45.645Z"
+    }
+  },
+  {
+    "model": "bboard.bb",
+    "pk": 4,
+    "fields": {
+      "rubric": 2,
+      "title": "dasdasdas",
+      "content": "asdasdasdasdsa",
+      "price": "12.00",
+      "is_activate": true,
+      "published": "2023-11-28T14:39:31.852Z",
+      "updated": "2023-11-28T14:39:31.852Z"
+    }
+  },
+  {
+    "model": "bboard.bb",
+    "pk": 5,
+    "fields": {
+      "rubric": 2,
+      "title": "dasdasd",
+      "content": "asdasdasdasd",
+      "price": "26.00",
+      "is_activate": true,
+      "published": "2023-11-28T14:49:28.046Z",
+      "updated": "2023-11-28T14:49:28.046Z"
+    }
+  },
+  {
+    "model": "bboard.bb",
+    "pk": 6,
+    "fields": {
+      "rubric": 1,
+      "title": "Бобер",
+      "content": "dadasdasda",
+      "price": "44.00",
+      "is_activate": true,
+      "published": "2023-11-28T14:59:41.459Z",
+      "updated": "2023-11-28T14:59:41.459Z"
+    }
+  },
+  {
+    "model": "bboard.bb",
+    "pk": 7,
+    "fields": {
+      "rubric": 2,
+      "title": "Бобер",
+      "content": "вфывфывфывфывфывфыв",
+      "price": "26.00",
+      "is_activate": true,
+      "published": "2023-11-28T15:00:56.897Z",
+      "updated": "2023-11-28T15:00:56.897Z"
+    }
+  },
+  {
+    "model": "bboard.bb",
+    "pk": 8,
+    "fields": {
+      "rubric": 2,
+      "title": "Django",
+      "content": "Фреймворк для Python",
+      "price": "28.00",
+      "is_activate": true,
+      "published": "2023-11-28T15:14:29.828Z",
+      "updated": "2023-11-28T15:14:29.829Z"
+    }
+  }
+]

@@ -9,11 +9,19 @@ def is_active_default():
     return is_all_posts_passive
 
 
+def validate_positive(value):
+    if value < 0:
+        raise ValidationError('Число %(value)s отрицательное',
+                              code='positive',
+                              params={'value': value})
+
+
 def validate_even(value):
     if value % 2 != 0:
         raise ValidationError('Число %(value)s нечетное',
                               code='odd',
                               params={'value': value})
+
 
 class MinMaxValueValidator:
     def __init__(self, min_value, max_value):
@@ -98,7 +106,8 @@ class Bb(models.Model):
                                 # validators = [validators.MinValueValidator(0),
                                 #               validators.MinValueValidator(100500),
                                 #               validators.DecimalValidator(8, 2)]
-                                validators=[validate_even, MinMaxValueValidator(25, 45)])
+                                validators=[validate_even,
+                                            MinMaxValueValidator(25, 45), validate_positive])
     is_activate = models.BooleanField(default=is_active_default)
     published = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name="Опубликовано")
     updated = models.DateTimeField(auto_now=True, db_index=True, verbose_name="Изменено")
@@ -121,7 +130,7 @@ class Bb(models.Model):
         return self.title
 
     def id_and_date(self):
-        return f'{self.published}, id: {self.pk}'
+        return f'{self.published.strftime("%d.%m.%Y %H:%M:%S")}, id: {self.pk}'
 
     # title_and_price.short_description = "Название и цена"
 
