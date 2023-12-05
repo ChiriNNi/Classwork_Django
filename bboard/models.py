@@ -10,7 +10,7 @@ def is_active_default():
 
 
 def validate_positive(value):
-    if value < 0:
+    if value >= 0:
         raise ValidationError('Число %(value)s отрицательное',
                               code='positive',
                               params={'value': value})
@@ -63,11 +63,11 @@ class Bb(models.Model):
     #
     # kind = models.CharField(max_length=1, choices=Kinds.choices, default=Kinds.SELL)
 
-    # KINDS = (
-    #     ('b', 'Куплю'),
-    #     ('s', 'Продам'),
-    #     ('c', 'Обменяю'),
-    # )
+    KINDS = (
+        ('b', 'Куплю'),
+        ('s', 'Продам'),
+        ('c', 'Обменяю'),
+    )
 
     # KINDS = (
     #     ('Купля-продажа', (
@@ -86,7 +86,7 @@ class Bb(models.Model):
     #     ('c', 'Обменяю'),
     # )
 
-    # kind = models.CharField(max_length=1, choices=KINDS, default='s')
+    kind = models.CharField(max_length=1, choices=KINDS, default='s', verbose_name='Тип объявления')
     # kind = models.CharField(max_length=1, choices=KINDS, blank=True)
 
     rubric = models.ForeignKey("Rubric", null=True, on_delete=models.PROTECT, verbose_name="Рубрика")
@@ -103,11 +103,12 @@ class Bb(models.Model):
                                 decimal_places=2,
                                 verbose_name="Цена",
                                 default=0.0,
-                                # validators = [validators.MinValueValidator(0),
-                                #               validators.MinValueValidator(100500),
-                                #               validators.DecimalValidator(8, 2)]
-                                validators=[validate_even,
-                                            MinMaxValueValidator(25, 45), validate_positive])
+                                validators = [validators.MinValueValidator(0),
+                                              validators.MinValueValidator(100500),
+                                              validators.DecimalValidator(8, 2),
+                                              validate_even,
+                                              # MinMaxValueValidator(25, 45),
+                                              validate_positive])
     is_activate = models.BooleanField(default=is_active_default)
     published = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name="Опубликовано")
     updated = models.DateTimeField(auto_now=True, db_index=True, verbose_name="Изменено")
