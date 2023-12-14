@@ -10,7 +10,7 @@ def is_active_default():
 
 
 def validate_positive(value):
-    if value >= 0:
+    if value <= 0:
         raise ValidationError('Число %(value)s отрицательное',
                               code='positive',
                               params={'value': value})
