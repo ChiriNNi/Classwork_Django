@@ -69,6 +69,12 @@ class Bb(models.Model):
         ('c', 'Обменяю'),
     )
 
+    ITEM_STATUSES = (
+        ('new', 'Новый'),
+        ('used', 'Б/у'),
+        ('refurbished', 'Восстановленный'),
+    )
+
     # KINDS = (
     #     ('Купля-продажа', (
     #         ('b', 'Куплю'),
@@ -87,7 +93,7 @@ class Bb(models.Model):
     # )
 
     kind = models.CharField(max_length=1, choices=KINDS, default='s', verbose_name='Тип объявления')
-    # kind = models.CharField(max_length=1, choices=KINDS, blank=True)
+    item_status = models.CharField(max_length=20, choices=ITEM_STATUSES, default='new', verbose_name='Состояние товара')
 
     rubric = models.ForeignKey("Rubric", null=True, on_delete=models.PROTECT, verbose_name="Рубрика")
     title = models.CharField(
