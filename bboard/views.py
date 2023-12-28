@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template.loader import get_template, render_to_string
 from django.urls import reverse_lazy, reverse
+from django.views import View
 from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView
 
@@ -35,6 +36,18 @@ def index(request):
 
     # template = get_template('index.html')
     # return HttpResponse(template.render(context=context, request=request))
+
+
+class IndexView(TemplateView):
+    template_name = 'index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['bbs'] = Bb.objects.all()
+        context['rubrics'] = Rubric.objects.annotate(count=Count('bb')).filter(count__gt=0)
+        return context
+
+
 
 
 def by_rubric(request, rubric_id):
@@ -74,24 +87,24 @@ class BbByRubricView(TemplateView):
 #         return render(request, 'create.html', context)
 
 
-# def add_and_save(request):
-#     print(request.headers['Accept-Encoding'])
-#     print(request.headers['accept-encoding'])
-#     print(request.headers['Accept_Encoding'])
-#
-#     if request.method == 'POST':
-#         bbf = BbForm(request.POST)
-#         if bbf.is_valid():
-#             bbf.save()
-#             return HttpResponseRedirect(reverse('bboard:by_rubric'),
-#                                         kwargs={'rubric_id': bbf.clean_data['rubric'].pk})
-#         else:
-#             context = {'form': bbf}
-#             return render(request, 'create.html', context)
-#     else:
-#         bbf = BbForm()
-#         context = {'form': bbf}
-#         return render(request, 'create.html', context)
+def add_and_save(request):
+    print(request.headers['Accept-Encoding'])
+    print(request.headers['accept-encoding'])
+    print(request.headers['Accept_Encoding'])
+
+    if request.method == 'POST':
+        bbf = BbForm(request.POST)
+        if bbf.is_valid():
+            bbf.save()
+            return HttpResponseRedirect(reverse('bboard:by_rubric'),
+                                        kwargs={'rubric_id': bbf.clean_data['rubric'].pk})
+        else:
+            context = {'form': bbf}
+            return render(request, 'create.html', context)
+    else:
+        bbf = BbForm()
+        context = {'form': bbf}
+        return render(request, 'create.html', context)
 
 
 class BbCreateView(CreateView):
