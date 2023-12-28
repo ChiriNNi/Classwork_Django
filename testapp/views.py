@@ -27,9 +27,9 @@ from bboard.models import Rubric, Bb
 #     return redirect('bboard:by_rubric', rubric_id=r.id)
 
 
-# def index(request):
-#     r = get_object_or_404(Rubric, name='Транспорт')
-#     bbs = get_list_or_404(Bb, rubric=r)
-#     context={'bbs': bbs}
-#     res = resolve('/test/')
-#     return render(request, 'test.html', context)
+def index(request):
+    r = get_object_or_404(Rubric, name='Транспорт')
+    bbs = get_list_or_404(Bb, rubric=r)
+    context={'bbs': bbs}
+    res = resolve('/test/')
+    return render(request, 'test.html', context)
