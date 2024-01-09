@@ -5,11 +5,11 @@
 {% block content %}
     {% for bb in bbs %}
         <div>
-            <h2>{#{ bb.title }#}{{ bb.title_and_price }}</h2>
+            <h2><a href="{% url 'bboard:detail' pk=bb.pk%}"></a>{{ bb.title_and_price }}</h2>
             <p>{{ bb.content }}</p>
             <p>Состояние товара: {{ bb.item_status }}</p>
             <p><a href="{% url 'bboard:by_rubric' bb.rubric.pk %}">{{ bb.rubric.name }}</a></p>
-            <p>{#{ bb.published|date:"d.m.Y H:i:s" }#}{{ bb.id_and_date }}</p>
+            <p>{{ bb.id_and_date }}</p>
         </div>
     {% endfor %}
 {% endblock %}
