@@ -5,7 +5,7 @@ from django.template.loader import get_template, render_to_string
 from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.views.generic import TemplateView, DetailView, ListView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, FormView
 
 from .forms import BbForm
 from .models import Bb, Rubric
@@ -137,3 +137,25 @@ class BbCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         context['rubrics'] = Rubric.objects.all()
         return context
+
+
+class BbAddView(FormView):
+    template_name = 'create.html'
+    form_class = BbForm
+    initial = {'price': 0.0}
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['rubrics'] = Rubric.objects.all()
+        return context
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+    def get_form(self, form_class=None):
+        self.object = super().get_form(form_class)
+        return self.object
+
+    def get_success_url(self):
+        return reverse('bboard:by_rubric', kwargs={'rubric:id': self.object.cleaned_data['rubric'].pk})

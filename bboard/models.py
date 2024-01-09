@@ -104,7 +104,7 @@ class Bb(models.Model):
         # validators=[validators.MinLengthValidator(4),
         #             validators.MinLengthValidator(50)]
     )
-    content = models.TextField(null=True, blank=True, verbose_name="Описание")
+    content = models.TextField(null=True, blank=True, verbose_name="Описание", default='Какое-то значение: ')
     price = models.DecimalField(max_digits=8,
                                 decimal_places=2,
                                 verbose_name="Цена",
