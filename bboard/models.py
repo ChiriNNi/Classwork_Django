@@ -99,12 +99,11 @@ class Bb(models.Model):
     title = models.CharField(
         max_length=50,
         verbose_name="Товар",
-        validators=[validators.RegexValidator(regex='^.{4,}$')],
-        error_messages={'invalid': 'ERROR'}
+        # validators=[validators.RegexValidator(regex='^.{4,}$')],
         # validators=[validators.MinLengthValidator(4),
         #             validators.MinLengthValidator(50)]
     )
-    content = models.TextField(null=True, blank=True, verbose_name="Описание", default='Какое-то значение: ')
+    content = models.TextField(null=True, blank=True, verbose_name="Описание", default='Описание: ')
     price = models.DecimalField(max_digits=8,
                                 decimal_places=2,
                                 verbose_name="Цена",

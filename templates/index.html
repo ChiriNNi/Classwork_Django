@@ -10,12 +10,30 @@
     </p>
     
     {% for bb in bbs %}
-        <div>
-            <h2><a href="{% url 'bboard:detail' pk=bb.pk%}">{{ bb.title_and_price }}</a></h2>
-            <p>{{ bb.content }}</p>
+        
+        <div class="{% cycle 'b1' 'b2'%}">
+            <h2>{% url 'bboard:detail' bb.pk as detail_url %}
+                <a href="{{ detail_url }}">
+                    {{ forloop.counter }} - {{ bb.title_and_price }}
+                    {% if forloop.first %}
+                        (Первое объявление)
+                    {% elif forloop.last %}
+                        (Последнее объявление)
+                    {% endif %}
+                </a>
+            </h2>
+            <p>{{ bb.content|truncatewords_html:5|wordwrap:1 }}</p>
             <p>Состояние товара: {{ bb.item_status }}</p>
-            <p><a href="{% url 'bboard:by_rubric' bb.rubric.pk %}">{{ bb.rubric.name }}</a></p>
+            {% ifchanged bb.rubric.name %}
+            <p>
+                <a href="{% url 'bboard:by_rubric' bb.rubric.pk %}">
+                    {{ bb.rubric.name }}</a>
+            </p>
+            {% endifchanged %}
+        
             <p>{{ bb.id_and_date }}</p>
+        
+            {% firstof bb.phone bb.email 'На деревню дедушке' %}
         </div>
     {% endfor %}
 {% endblock %}
