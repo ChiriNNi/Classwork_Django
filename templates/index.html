@@ -3,6 +3,8 @@
 {% block title %}{{ current_rubric.name }}{% endblock %}
 
 {% block content %}
+    
+    
     <p>
         {% for d in date_list %}
             {{ d.year }} / <a href="{% url 'bboard:month' year=d.year month=d.month%}">{{ d.month }}</a>
