@@ -5,6 +5,7 @@ from django.template.loader import get_template, render_to_string
 from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.views.generic import TemplateView, DetailView, ListView, ArchiveIndexView, MonthArchiveView, RedirectView
+from django.contrib.auth.models import User
 from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteView
 
 from .forms import BbForm
@@ -199,10 +200,6 @@ class BbDeleteView(DeleteView):
         return context
 
 
-class BbRedirectView(RedirectView):
-    url = '/'
-
-
 # class BbAddView(FormView):
 #     template_name = 'create.html'
 #     form_class = BbForm
@@ -223,3 +220,14 @@ class BbRedirectView(RedirectView):
 #
 #     def get_success_url(self):
 #         return reverse('bboard:by_rubric', kwargs={'rubric:id': self.object.cleaned_data['rubric'].pk})
+
+class AllUsersView(ListView):
+    model = User
+    template_name = 'all_users.html'
+    context_object_name = 'users'
+
+
+class UserProfileView(DetailView):
+    model = User
+    template_name = 'user_profile.html'
+    context_object_name = 'user'

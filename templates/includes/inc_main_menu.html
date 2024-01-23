@@ -1,6 +1,8 @@
 <nav>
     <a href="{% url 'bboard:index' %}">Главная</a>
     <a href="{% url 'bboard:add' %}">Добавить</a>
+    <a href="{% url 'bboard:all_users' %}">All Users</a>
+    <a href=""></a>
     {% for rubric in rubrics %}
         {% with bb_count=rubric.count %}
             <a href="{{ rubric.get_absolute_url }}">
