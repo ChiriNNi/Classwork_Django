@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.db.models import Count
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
@@ -26,17 +27,6 @@ from django.template import loader
 #     response.write(' главная')
 #     response.writelines((' страница', ' сайта'))
 #     return response
-
-
-# def index(request):
-#     bbs = Bb.objects.all()
-#     rubrics = Rubric.objects.annotate(count=Count('bb')).filter(count__gt=0)
-#     context = {'bbs': bbs, 'rubrics': rubrics}
-#
-#     return HttpResponse(render_to_string('index.html', context, request))
-#
-#     # template = get_template('index.html')
-#     # return HttpResponse(template.render(context=context, request=request))
 
 
 # class IndexView(TemplateView):
@@ -106,18 +96,53 @@ from django.template import loader
 #         return render(request, 'create.html', context)
 
 
-class BbIndexView(ArchiveIndexView):
-    model = Bb
-    template_name = 'index.html'
-    date_field = 'published'
-    date_list_period = 'year'
-    context_object_name = 'bbs'
-    allow_empty = True
+# class BbIndexView(ArchiveIndexView):
+#     model = Bb
+#     template_name = 'index.html'
+#     date_field = 'published'
+#     date_list_period = 'year'
+#     context_object_name = 'bbs'
+#     allow_empty = True
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['rubrics'] = Rubric.objects.annotate(count=Count('bb')).filter(count__gt=0)
+#         return context
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['rubrics'] = Rubric.objects.annotate(count=Count('bb')).filter(count__gt=0)
-        return context
+
+def index(request):
+    bbs = Bb.objects.all()
+    rubrics = Rubric.objects.annotate(count=Count('bb')).filter(count__gt=0)
+
+    paginator = Paginator(bbs, 2)
+
+    if 'page' in request.GET:
+        page_num = request.GET['page']
+    else:
+        page_num = 1
+
+    page = paginator.get_page(page_num)
+
+    context = {'bbs': page.object_list, 'rubrics': rubrics, 'page_obj': page}
+
+    return render(request, 'index.html', context)
+
+    # template = get_template('index.html')
+    # return HttpResponse(template.render(context=context, request=request))
+
+# class BbIndexView(ListView):
+#     model = Bb
+#     template_name = 'index.html'
+#     context_object_name = 'bbs'
+#     paginate_by = 2
+#
+#     def get_queryset(self):
+#         return Bb.objects.all()
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['rubrics'] = Rubric.objects.annotate(count=Count('bb')).filter(count__gt=0)
+#         return context
 
 
 class BbMonthView(MonthArchiveView):
