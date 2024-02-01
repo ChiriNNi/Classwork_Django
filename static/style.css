@@ -4,15 +4,18 @@ header h1 {
     text-align: center;
     background: url("bg.jpg") left / auto 100% no-repeat;
 }
+
 nav {
     font-size: 16pt;
     width: 200px;
     float: left;
 }
+
 nav a {
     display: block;
     margin: 10px 0;
 }
+
 section {
     margin-left: 220px;
 }
@@ -23,4 +26,19 @@ section {
 
 .b2 {
     background-color: #ffffff;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
 }

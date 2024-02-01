@@ -1,0 +1,22 @@
+{% extends "layout/basic.html" %}
+{% block title %}Объявления с ценой меньше или равно 100500{% endblock %}
+
+{% block content %}
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Rubric</th>
+            <th>Price</th>
+            <th>Published</th>
+        </tr>
+        {% for bb in bbs %}
+            {{ bb }}
+            <tr>
+                <td>{{ bb.title }}</td>
+                <td>{{ bb.rubric }}</td>
+                <td>{{ bb.price }}</td>
+                <td>{{ bb.published }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

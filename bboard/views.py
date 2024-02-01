@@ -130,6 +130,18 @@ def index(request):
     # template = get_template('index.html')
     # return HttpResponse(template.render(context=context, request=request))
 
+
+def select_columns(request):
+    bbs = Bb.objects.values('title', 'price')
+    context = {'bbs': bbs}
+    return render(request, 'select_columns.html', context)
+
+
+def exclude_values(request):
+    bbs = Bb.objects.exclude(price__gt=100500)
+    context = {'bbs': bbs}
+    return render(request, 'exclude_values.html', context)
+
 # class BbIndexView(ListView):
 #     model = Bb
 #     template_name = 'index.html'

@@ -5,9 +5,14 @@
 {% block content %}
     <h2>Добавления объявление</h2>
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Добавить">
-    </form>
+    {% if form.is_multipart %}
+        <form method="post" enctype="multipart/form-data">
+    {% else %}
+        <form method="post">
+    {% endif %}
+{% csrf_token %}
+{{ form.as_p }}
+<button type="submit" class="btn btn-primary">Добавить</button>
+</form>
+
 {% endblock %}

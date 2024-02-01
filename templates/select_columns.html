@@ -1,0 +1,17 @@
+{% extends "layout/basic.html" %}
+{% block title %}Определенные поля{% endblock %}
+
+{% block content %}
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Price</th>
+        </tr>
+        {% for bb in bbs %}
+            <tr>
+                <td>{{ bb.title }}</td>
+                <td>{{ bb.price }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

@@ -2,6 +2,8 @@
     <a href="{% url 'bboard:index' %}">Главная</a>
     <a href="{% url 'bboard:add' %}">Добавить</a>
     <a href="{% url 'bboard:all_users' %}">All Users</a>
+    <a href="{% url 'bboard:select_columns' %}">Select Columns</a>
+    <a href="{% url 'bboard:exclude_values' %}">Exclude Values</a>
     <a href=""></a>
     {% for rubric in rubrics %}
         {% with bb_count=rubric.count %}

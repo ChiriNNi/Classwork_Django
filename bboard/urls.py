@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (  # BbCreateView, BbAddView, IndexView, BbIndexView,
     index, BbByRubricView, BbDetailView, BbCreateView, BbEditView, BbDeleteView, BbMonthView,
-    UserProfileView, AllUsersView)
+    UserProfileView, AllUsersView, select_columns, exclude_values)
 
 app_name = 'bboard'
 
@@ -11,6 +11,8 @@ urlpatterns = [
     path('delete/<int:pk>', BbDeleteView.as_view(), name='delete'),
     path('add/', BbCreateView.as_view(), name='add'),
     path('<int:rubric_id>/', BbByRubricView.as_view(), name="by_rubric"),
+    path('select_columns/', select_columns, name="select_columns"),
+    path('exclude_values/', exclude_values, name="exclude_values"),
     # path('', IndexView.as_view(), name="index"),
     # path('', BbIndexView.as_view(), name='index'),
     path('', index, name='index'),
