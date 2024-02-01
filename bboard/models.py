@@ -108,12 +108,12 @@ class Bb(models.Model):
                                 decimal_places=2,
                                 verbose_name="Цена",
                                 default=0.0,
-                                validators = [validators.MinValueValidator(0),
-                                              validators.MinValueValidator(100500),
+                                validators=[validators.MinValueValidator(0),
                                               validators.DecimalValidator(8, 2),
-                                              validate_even,
+                                              # validate_even,
                                               # MinMaxValueValidator(25, 45),
-                                              validate_positive])
+                                              # validate_positive
+                                              ])
     is_activate = models.BooleanField(default=is_active_default)
     published = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name="Опубликовано")
     updated = models.DateTimeField(auto_now=True, db_index=True, verbose_name="Изменено")
