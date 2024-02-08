@@ -1,7 +1,8 @@
+from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
 from .views import (  # BbCreateView, BbAddView, IndexView, BbIndexView,
     index, BbByRubricView, BbDetailView, BbCreateView, BbEditView, BbDeleteView, BbMonthView,
-    UserProfileView, AllUsersView, select_columns, exclude_values, rubrics)
+    UserProfileView, AllUsersView, select_columns, exclude_values, rubrics, bbs)
 
 app_name = 'bboard'
 
@@ -21,5 +22,8 @@ urlpatterns = [
     path('all_users/', AllUsersView.as_view(), name='all_users'),
     path('user_profile/<int:pk>/', UserProfileView.as_view(), name='user_profile'),
 
-    path('rubrics/', rubrics, name='rubrics')
+    path('rubrics/', rubrics, name='rubrics'),
+    path('bbs/<int:rubric_id>/', bbs, name="bbs"),
+    path('accounts/login/', LoginView.as_view(), name='login'),
+    path('accounts/logout/', LogoutView.as_view(), name='logout')
 ]

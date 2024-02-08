@@ -1,6 +1,6 @@
 from django.core.paginator import Paginator
 from django.db.models import Count
-from django.forms import modelformset_factory
+from django.forms import modelformset_factory, inlineformset_factory
 from django.forms.formsets import ORDERING_FIELD_NAME
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
@@ -214,6 +214,25 @@ def rubrics(request):
 
     return render(request, 'bboard/rubrics.html', context)
 
+
+def bbs(request, rubric_id):
+    BbsFormSet = inlineformset_factory(Rubric, Bb, form=BbForm, extra=1)
+    rubric = Rubric.objects.get(pk=rubric_id)
+
+    # if request.user.is_authenticated:
+
+
+
+    if request.method == 'POST':
+        formset = BbsFormSet(request.POST, instance=rubric)
+
+        if formset.is_valid():
+            formset.save()
+            return redirect('bboard:index')
+    else:
+        formset = BbsFormSet(instance=rubric)
+    context = {'formset': formset, 'current_rubric': rubric}
+    return render(request, 'bboard/bbs.html', context)
 
 
 class BbDetailView(DetailView):
