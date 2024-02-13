@@ -3,7 +3,7 @@ from django.core import validators
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
-from .models import Bb as BbModel, Rubric
+from .models import Bb as BbModel, Rubric, IceCream
 
 
 class BbForm(forms.ModelForm):
@@ -39,7 +39,7 @@ class BbForm(forms.ModelForm):
 
     class Meta:
         model = BbModel
-        fields = ('title', 'content', 'price', 'rubric')
+        fields = ('title', 'content', 'price')
 
 
 class RegisterUserForm(forms.ModelForm):
@@ -50,3 +50,8 @@ class RegisterUserForm(forms.ModelForm):
         model = User
         fields = ('username', 'email', 'first_name', 'last_name')
 
+
+class IceCreamForm(forms.ModelForm):
+    class Meta:
+        model = IceCream
+        fields = ('flavor', 'description', 'price', 'available')

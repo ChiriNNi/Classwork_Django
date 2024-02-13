@@ -11,7 +11,7 @@ from django.views.generic import TemplateView, DetailView, ListView, ArchiveInde
 from django.contrib.auth.models import User
 from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteView
 
-from .forms import BbForm
+from .forms import BbForm, IceCreamForm
 from .models import Bb, Rubric
 from django.template import loader
 
@@ -219,10 +219,6 @@ def bbs(request, rubric_id):
     BbsFormSet = inlineformset_factory(Rubric, Bb, form=BbForm, extra=1)
     rubric = Rubric.objects.get(pk=rubric_id)
 
-    # if request.user.is_authenticated:
-
-
-
     if request.method == 'POST':
         formset = BbsFormSet(request.POST, instance=rubric)
 
@@ -233,6 +229,18 @@ def bbs(request, rubric_id):
         formset = BbsFormSet(instance=rubric)
     context = {'formset': formset, 'current_rubric': rubric}
     return render(request, 'bboard/bbs.html', context)
+
+
+def ice_cream(request):
+    if request.method == 'POST':
+        form = IceCreamForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('bboard:index')
+    else:
+        form = IceCreamForm()
+    context = {'form': form}
+    return render(request, 'bboard/ice_cream.html', context)
 
 
 class BbDetailView(DetailView):

@@ -146,3 +146,26 @@ class RevRubric(Rubric):
     class Meta:
         proxy = True
         ordering = ['-name']
+
+
+class IceCream(models.Model):
+    FLAVOR_CHOICES = [
+        ('vanilla', 'Ванильное'),
+        ('chocolate', 'Шоколадное'),
+        ('strawberry', 'Клубничное'),
+        ('caramel', 'Карамельное'),
+        ('mint', 'Мятное'),
+    ]
+
+    flavor = models.CharField(max_length=20, choices=FLAVOR_CHOICES, verbose_name='Вкус')
+    description = models.TextField(verbose_name='Описание')
+    price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Цена')
+    available = models.BooleanField(default=True, verbose_name='В наличии')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+
+    class Meta:
+        verbose_name = 'Мороженное'
+        verbose_name_plural = 'Мороженное'
+
+    def __str__(self):
+        return f"{self.flavor} - {self.price} тг."
