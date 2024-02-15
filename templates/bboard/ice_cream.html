@@ -5,9 +5,16 @@
 {% block content %}
     <h2>Добавление мороженого</h2>
 
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-    <p><button type="submit" class="btn btn-primary">Добавить</button></p>
+        <p><button type="submit" class="btn btn-primary">Добавить</button></p>
     </form>
 {% endblock %}  

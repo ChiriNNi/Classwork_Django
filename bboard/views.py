@@ -1,4 +1,5 @@
 from django.core.paginator import Paginator
+from django.db import transaction
 from django.db.models import Count
 from django.forms import modelformset_factory, inlineformset_factory
 from django.forms.formsets import ORDERING_FIELD_NAME
@@ -13,6 +14,7 @@ from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteVi
 
 from .forms import BbForm, IceCreamForm
 from .models import Bb, Rubric
+from django.contrib import messages
 from django.template import loader
 
 
@@ -198,9 +200,16 @@ def rubrics(request):
             instances = formset.save(commit=False)
             for obj in formset:
                 if obj.cleaned_data:
-                    rubric = obj.save(commit=False)
-                    rubric.order = obj.cleaned_data[ORDERING_FIELD_NAME]
-                    rubric.save()
+                    sp = transaction.savepoint()
+
+                    try:
+                        rubric = obj.save(commit=False)
+                        rubric.order = obj.cleaned_data[ORDERING_FIELD_NAME]
+                        rubric.save()
+                        transaction.savepoint_commit(sp)
+                    except:
+                        transaction.savepoint_rollback(sp)
+                        transaction.commit()
 
             for obj in formset.deleted_objects:
                 obj.delete()
@@ -215,6 +224,8 @@ def rubrics(request):
     return render(request, 'bboard/rubrics.html', context)
 
 
+# @transaction.non_atomic_requests
+# @transaction.atomic
 def bbs(request, rubric_id):
     BbsFormSet = inlineformset_factory(Rubric, Bb, form=BbForm, extra=1)
     rubric = Rubric.objects.get(pk=rubric_id)
@@ -223,7 +234,8 @@ def bbs(request, rubric_id):
         formset = BbsFormSet(request.POST, instance=rubric)
 
         if formset.is_valid():
-            formset.save()
+            with transaction.atomic():
+                formset.save()
             return redirect('bboard:index')
     else:
         formset = BbsFormSet(instance=rubric)
@@ -237,6 +249,8 @@ def ice_cream(request):
         if form.is_valid():
             form.save()
             return redirect('bboard:index')
+        else:
+            messages.error(request, "Форма содержит ошибки. Пожалуйста, исправьте и отправьте её снова.")
     else:
         form = IceCreamForm()
     context = {'form': form}

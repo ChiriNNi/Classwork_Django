@@ -1,6 +1,7 @@
 from django.core import validators
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.models import Count
 
 is_all_posts_passive = True
 
@@ -35,9 +36,31 @@ class MinMaxValueValidator:
                                   params={'min': self.min_value, 'max': self.max_value})
 
 
+class RubricQuerySet(models.QuerySet):
+    def order_by_bb_count(self):
+        return self.annotate(count=Count('bb')).order_by('-count')
+
+
+# Диспетчер записей
+class RubricManager(models.Manager):
+    def get_queryset(self):
+        # return super().get_queryset().order_by('-order', '-name')
+        return RubricQuerySet(self.model, using=self._db)
+
+    def order_by_bb_count(self):
+        # return super().get_queryset().annotate(
+        #     count=models.Count('bb')).order_by('-count')
+        return self.get_queryset().order_by_bb_count()
+
+
 class Rubric(models.Model):
     name = models.CharField(max_length=20, db_index=True, verbose_name="Название", unique=True)
     order = models.SmallIntegerField(default=0, db_index=True)
+    # objects = RubricManager()
+    # objects = models.Manager()
+    # bbs = RubricManager()
+    # objects = RubricQuerySet.as_manager()
+    objects = models.Manager.from_queryset(RubricQuerySet)()
 
     def __str__(self):
         return f'{self.name}'
@@ -49,6 +72,17 @@ class Rubric(models.Model):
         verbose_name_plural = 'Рубрики'
         verbose_name = 'Рубрика'
         ordering = ['order', 'name']
+
+
+class RevRubric(Rubric):
+    class Meta:
+        proxy = True
+        ordering = ['-name']
+
+
+class BbManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().order_by('price')
 
 
 class Bb(models.Model):
@@ -112,6 +146,7 @@ class Bb(models.Model):
     is_activate = models.BooleanField(default=is_active_default)
     published = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name="Опубликовано")
     updated = models.DateTimeField(auto_now=True, db_index=True, verbose_name="Изменено")
+    # by_price = BbManager()
 
     def __str__(self):
         return f'{self.title}'
@@ -142,12 +177,6 @@ class Bb(models.Model):
         # order_with_respect_to = 'rubric'
 
 
-class RevRubric(Rubric):
-    class Meta:
-        proxy = True
-        ordering = ['-name']
-
-
 class IceCream(models.Model):
     FLAVOR_CHOICES = [
         ('vanilla', 'Ванильное'),
@@ -169,3 +198,7 @@ class IceCream(models.Model):
 
     def __str__(self):
         return f"{self.flavor} - {self.price} тг."
+
+
+
+
