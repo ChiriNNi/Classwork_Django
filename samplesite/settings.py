@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'bboard.apps.BboardConfig',
-    'testapp.apps.TestappConfig'
+    'testapp.apps.TestappConfig',
+    'captcha'
 ]
 
 MIDDLEWARE = [
@@ -81,7 +82,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
         # 'ATOMIC_REQUEST': False,
-        'AUTOCOMMIT': False,
+        # 'AUTOCOMMIT': False,
     }
 }
 
@@ -137,3 +138,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = "/accounts/login/"
 LOGIN_REDIRECT_URL = "bboard:index"
 LOGOUT_REDIRECT_URL = "bboard:index"
+
+CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.random_char_challenge'
+CAPTCHA_LENGTH = 4
+CAPTCHA_WORDS_DICTIONARY = '/static/captcha_words.txt'
+CAPTCHA_TIMEOUT = 5
+

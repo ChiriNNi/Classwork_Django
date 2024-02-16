@@ -12,7 +12,7 @@ from django.views.generic import TemplateView, DetailView, ListView, ArchiveInde
 from django.contrib.auth.models import User
 from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteView
 
-from .forms import BbForm, IceCreamForm
+from .forms import BbForm, IceCreamForm, SearchForm
 from .models import Bb, Rubric
 from django.contrib import messages
 from django.template import loader
@@ -200,17 +200,9 @@ def rubrics(request):
             instances = formset.save(commit=False)
             for obj in formset:
                 if obj.cleaned_data:
-                    sp = transaction.savepoint()
-
-                    try:
-                        rubric = obj.save(commit=False)
-                        rubric.order = obj.cleaned_data[ORDERING_FIELD_NAME]
-                        rubric.save()
-                        transaction.savepoint_commit(sp)
-                    except:
-                        transaction.savepoint_rollback(sp)
-                        transaction.commit()
-
+                    rubric = obj.save(commit=False)
+                    rubric.order = obj.cleaned_data[ORDERING_FIELD_NAME]
+                    rubric.save()
             for obj in formset.deleted_objects:
                 obj.delete()
 
@@ -339,3 +331,20 @@ class UserProfileView(DetailView):
     model = User
     template_name = 'user_profile.html'
     context_object_name = 'user'
+
+
+def search(request):
+    if request.method == "POST":
+        sf = SearchForm(request.POST)
+        if sf.is_valid():
+            keyword = sf.cleaned_data['keyword']
+            rubric_id = sf.cleaned_data['rubric'].pk
+            current_rubric = sf.cleaned_data['rubric']
+            # bbs = Bb.objects.filter(title__icontains=keyword, rubric=rubric_id)
+            bbs = Bb.objects.filter(title__iregex=keyword, rubric=rubric_id)
+            context = {'bbs': bbs, 'current_rubric': current_rubric, 'keyword': keyword}
+            return render(request, 'bboard/search_result.html', context)
+    else:
+        sf = SearchForm()
+    context = {'form': sf}
+    return render(request, 'bboard/search.html', context)

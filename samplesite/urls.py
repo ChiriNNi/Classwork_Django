@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('bboard.urls', namespace='bboard')),
     path('test/', include('testapp.urls', namespace='testapp')),
+    path('captcha/', include('captcha.urls'))
 ]
