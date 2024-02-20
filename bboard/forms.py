@@ -62,7 +62,7 @@ class IceCreamForm(forms.ModelForm):
 class SearchForm(forms.Form):
     keyword = forms.CharField(max_length=20, label="Искомое слово")
     rubric = forms.ModelChoiceField(queryset=Rubric.objects.all(), label="Рубрика")
-    captcha = CaptchaField(label='Введите текст с картинки', error_mesages={'invalid': 'Неправильный текст'},
+    captcha = CaptchaField(label='Введите текст с картинки', # error_mesages={'invalid': 'Неправильный текст'},
                            generator='captcha.helpers.word_challenge')
 
     error_css_class = 'error'
