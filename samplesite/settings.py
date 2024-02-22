@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'bboard.apps.BboardConfig',
     'testapp.apps.TestappConfig',
     'captcha',
+    'precise_bbcode'
 ]
 
 MIDDLEWARE = [
@@ -152,4 +153,8 @@ CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.random_char_challenge'
 CAPTCHA_LENGTH = 4
 CAPTCHA_WORDS_DICTIONARY = '/static/captcha_words.txt'
 CAPTCHA_TIMEOUT = 5
+
+# BbCode
+BBCODe_NEWLINE = ("<br>"
+                  "")
 

@@ -11,6 +11,7 @@ from django.views import View
 from django.views.generic import TemplateView, DetailView, ListView, ArchiveIndexView, MonthArchiveView, RedirectView
 from django.contrib.auth.models import User
 from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteView
+from precise_bbcode.bbcode import get_parser
 
 from .forms import BbForm, IceCreamForm, SearchForm
 from .models import Bb, Rubric
@@ -256,6 +257,13 @@ class BbDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['rubric'] = Rubric.objects.all()
         return context
+
+
+def detail(request, pk):
+    parser = get_parser()
+    bb = Bb.objects.get(pk=pk)
+    parsed_content = parser.render(bb.content)
+    pass
 
 
 # class BbCreateView(CreateView):
