@@ -1,4 +1,5 @@
 {% extends "layout/basic.html" %}
+{% load bbcode_tags %}
 
 {% block title %}{{ current_rubric.name }}{% endblock %}
 
@@ -11,7 +12,7 @@
             {{ d.year }} / <a href="{% url 'bboard:month' year=d.year month=d.month %}">{{ d.month }}</a>
         {% endfor %}
     </p>
-
+    <p>{{ bb.content|bbcode|safe }}</p>
     {% for bb in bbs %}
         {% with index=forloop.counter0|add:page_obj.start_index %}
             <div class="{% cycle 'b1' 'b2' %}">

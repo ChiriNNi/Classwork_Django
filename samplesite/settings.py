@@ -155,6 +155,6 @@ CAPTCHA_WORDS_DICTIONARY = '/static/captcha_words.txt'
 CAPTCHA_TIMEOUT = 5
 
 # BbCode
-BBCODe_NEWLINE = ("<br>"
-                  "")
+BBCODe_NEWLINE = ("<br>")
+BBCODE_DISABLE_BUILTIN_TAGS = True
 

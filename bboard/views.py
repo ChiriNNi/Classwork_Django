@@ -263,7 +263,6 @@ def detail(request, pk):
     parser = get_parser()
     bb = Bb.objects.get(pk=pk)
     parsed_content = parser.render(bb.content)
-    pass
 
 
 # class BbCreateView(CreateView):
