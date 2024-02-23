@@ -1,8 +1,11 @@
 {% load static %}
+{% load bootstrap4 %}
 
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Главная{% endblock %} :: Доска объявлений</title>
-    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+{#    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">#}
+    {% bootstrap_css %}
+
     <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>

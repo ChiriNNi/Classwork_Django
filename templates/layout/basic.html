@@ -1,5 +1,7 @@
-<!DOCTYPE html>
 {% load static %}
+{% load bootstrap4 %}
+
+<!DOCTYPE html>
 <html lang="ru">
 {% include 'includes/inc_header.html' %}
 <body>
@@ -17,6 +19,7 @@
 
 {% include 'includes/inc_footer.html' %}
 
-<script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+{#<script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>#}
+{% bootstrap_javascript jquery='full' %}
 </body>
 </html> 

@@ -8,12 +8,12 @@
     <form method="post">
         {% csrf_token %}
 
-        {{ formset.management_form }}
+        {{{ formset.management_form }}
 
         {% if formset.non_form_errors %}
             <ul>
                 {% for error in formset.non_form_errors %}
-                    
+
                 {% endfor %}
             </ul>
         {% endif %}
@@ -21,5 +21,5 @@
         <p>
             <button type="submit" class="btn btn-primary">Изменить</button>
         </p>
-    </form>
+    </form>}
 {% endblock %}  

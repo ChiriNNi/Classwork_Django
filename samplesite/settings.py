@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'bboard.apps.BboardConfig',
     'testapp.apps.TestappConfig',
     'captcha',
-    'precise_bbcode'
+    'precise_bbcode',
+    'bootstrap4'
 ]
 
 MIDDLEWARE = [
@@ -155,6 +156,18 @@ CAPTCHA_WORDS_DICTIONARY = '/static/captcha_words.txt'
 CAPTCHA_TIMEOUT = 5
 
 # BbCode
-BBCODe_NEWLINE = ("<br>")
-BBCODE_DISABLE_BUILTIN_TAGS = True
+BBCODE_NEWLINE = "<br>"
+BBCODE_DISABLE_BUILTIN_TAGS = False
+BBCODE_ALLOW_CUSTOM_TAGS = True
+BBCODE_ALLOW_SMILES = True
+BBCODE_SMILES_UPLOAD_TO = os.path.join('static', 'precise_bbcode', 'smiles')
+
+
+# BOOTSTRAP4 = {
+#     'horizontal_label_class': 'col-md-3',
+#     'horizontal_field_class': 'col-md-9',
+#     'required_css_class': '',
+#     'success_css_class': 'has-success',
+#     'error_css_class': 'has_error'
+# }
 

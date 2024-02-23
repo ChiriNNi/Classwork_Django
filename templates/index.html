@@ -32,7 +32,7 @@
                 
                 {% ifchanged bb.rubric.name %}
                     <p>
-                        <a href="{% url 'bboard:by_rubric' bb.rubric.pk %}">
+                       <a href="{#% url 'bboard:by_rubric' bb.rubric.pk %#}">
                             {{ bb.rubric.name }}</a>
                     </p>
                 {% endifchanged %}
