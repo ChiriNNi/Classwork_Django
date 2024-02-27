@@ -171,3 +171,5 @@ BBCODE_SMILES_UPLOAD_TO = os.path.join('static', 'precise_bbcode', 'smiles')
 #     'error_css_class': 'has_error'
 # }
 
+
+

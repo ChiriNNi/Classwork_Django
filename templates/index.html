@@ -1,11 +1,16 @@
 {% extends "layout/basic.html" %}
+{% load filtertags %}
 {% load bbcode_tags %}
 
 {% block title %}{{ current_rubric.name }}{% endblock %}
 
 {% block content %}
     {% now "Y-m-d H:i:s" as current_datetime %}
-    <h3>Current Date and Time: {{ current_datetime }}</h3>
+    <h3>Entry Date and Time: {{ current_datetime }}</h3>
+    
+{#    {% lst ', ' '1' '2' '3' '4' '5' %}#}
+    {% string_to_list ', ' '12345' %}
+    {% ulist '1' '2' '3' '4' '5' %}
     
     <p>
         {% for d in date_list %}
@@ -27,8 +32,12 @@
                     </a>
                 </h2>
                 <p>{{ bb.content|truncatewords_html:5|wordwrap:1 }}</p>
-                <p>Цена: {{ bb.price|floatformat:1 }}</p>
-                <p>Состояние товара: {{ bb.item_status }}</p>
+                <p>{{ bb.content|truncate_half }}</p>
+                {% autoescape on %}
+                    <p>Цена: {{ bb.price|currency }}</p>
+                    <p>Цена: {{ bb.price|currency:'руб.' }}</p>
+                    <p>Состояние товара: {{ bb.item_status }}</p>
+                {% endautoescape %}
                 
                 {% ifchanged bb.rubric.name %}
                     <p>
