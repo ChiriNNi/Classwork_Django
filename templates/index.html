@@ -5,8 +5,9 @@
 {% block title %}{{ current_rubric.name }}{% endblock %}
 
 {% block content %}
-    {% now "Y-m-d H:i:s" as current_datetime %}
-    <h3>Entry Date and Time: {{ current_datetime }}</h3>
+{#    {% now "Y-m-d H:i:s" as current_datetime %}#}
+{#    <h3>Entry Date and Time: {{ current_datetime }}</h3>#}
+    <p>{% current_datetime "%Y-%m-%d %H:%M:%S" %}</p>
     
 {#    {% lst ', ' '1' '2' '3' '4' '5' %}#}
     {% string_to_list ', ' '12345' %}
@@ -23,7 +24,7 @@
             <div class="{% cycle 'b1' 'b2' %}">
                 <h2>{% url 'bboard:detail' bb.pk as detail_url %}
                     <a href="{{ detail_url }}">
-                        {{ index }} - {{ bb.title_and_price }}
+                        {{ index }} - {{ bb.title_and_price|to_upper }}
                         {% if forloop.first %}
                             (Первое объявление)
                         {% elif forloop.last %}
