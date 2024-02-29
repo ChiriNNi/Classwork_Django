@@ -6,6 +6,8 @@ from django.http import StreamingHttpResponse, FileResponse, JsonResponse
 from django.urls import resolve
 
 from bboard.models import Rubric, Bb
+from testapp.forms import ImgForm
+from testapp.models import Img
 
 
 # def index(request):
@@ -30,6 +32,25 @@ from bboard.models import Rubric, Bb
 def index(request):
     r = get_object_or_404(Rubric, name='Транспорт')
     bbs = get_list_or_404(Bb, rubric=r)
-    context={'bbs': bbs}
+    context = {'bbs': bbs}
     res = resolve('/test/')
     return render(request, 'test.html', context)
+
+
+def add(request):
+    if request.method == 'POST':
+        form = ImgForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('test:add')
+    else:
+        form = ImgForm()
+    context = {'form': form}
+    return render(request, 'testapp/add.html', context)
+
+
+def delete(request, pk):
+    img = Img.objects.get(pk=pk)
+    img.img.delete()
+    img.delete()
+    return redirect('test:add')

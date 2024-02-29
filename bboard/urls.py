@@ -1,5 +1,6 @@
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
+
 from .views import (  # BbCreateView, BbAddView, IndexView, BbIndexView,
     index, BbByRubricView, BbDetailView, BbCreateView, BbEditView, BbDeleteView, BbMonthView,
     UserProfileView, AllUsersView, select_columns, exclude_values, rubrics, bbs, ice_cream, search)
@@ -29,3 +30,5 @@ urlpatterns = [
     path('accounts/logout/', LogoutView.as_view(), name='logout'),
     path('search/', search, name='search'),
 ]
+
+

@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from os.path import splitext
 
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
@@ -157,4 +158,23 @@ class PSGProject3(models.Model):
     data = JSONField()
 
 
+def get_timestamp_path(instance, filename):
+    # return '%s%s' % (datetime.now().timestamp(), splitext(filename)[1])
+    return f'{datetime.now().timestamp()}{splitext(filename)[1]}'
 
+
+class Img(models.Model):
+    # archive = models.FileField(upload_to='archives')
+    # archive = models.FileField(upload_to='archives/%Y/%m/%d/')
+    # archive = models.FileField(upload_to=get_timestamp_path)
+
+    img = models.ImageField(verbose_name='Изображение', upload_to=get_timestamp_path)
+    desc = models.TextField(verbose_name='Описание')
+
+    def delete(self, *args, **kwargs):
+        self.img.delete(save=False)
+        super().delete(*args, **kwargs)
+
+    class Meta:
+        verbose_name = 'Изображение'
+        verbose_name_plural = 'Изображения'
