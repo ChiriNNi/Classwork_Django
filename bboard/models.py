@@ -151,6 +151,7 @@ class Bb(models.Model):
     published = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name="Опубликовано")
     updated = models.DateTimeField(auto_now=True, db_index=True, verbose_name="Изменено")
     # by_price = BbManager()
+    picture = models.ImageField(verbose_name='Изображение', upload_to='bb/%Y/%m/%d/', blank=True, null=True)
 
     def __str__(self):
         return f'{self.title}'

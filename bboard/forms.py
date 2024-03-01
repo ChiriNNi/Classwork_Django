@@ -40,7 +40,7 @@ class BbForm(forms.ModelForm):
 
     class Meta:
         model = BbModel
-        fields = ('title', 'content', 'price')
+        fields = ('title', 'content', 'price', 'picture')
 
 
 class RegisterUserForm(forms.ModelForm):

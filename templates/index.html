@@ -1,6 +1,7 @@
 {% extends "layout/basic.html" %}
 {% load filtertags %}
 {% load bbcode_tags %}
+{% load thumbnail %}
 
 {% block title %}{{ current_rubric.name }}{% endblock %}
 
@@ -32,6 +33,9 @@
                         {% endif %}
                     </a>
                 </h2>
+
+                <img src="{{ bb.picture|thumbnail_url:'default' }}" alt="">
+
                 <p>{{ bb.content|truncatewords_html:5|wordwrap:1 }}</p>
                 <p>{{ bb.content|truncate_half }}</p>
                 {% autoescape on %}

@@ -8,7 +8,7 @@
     {% bootstrap_alert content='!' alert_type='danger' %}
     <h2>Добавления объявление</h2>
 
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
 {#        {% bootstrap_form form %}#}
 {#        {% bootstrap_form form layout='inline' field_class='col-md-6' size='small'%}#}
