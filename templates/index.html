@@ -14,6 +14,10 @@
     {% string_to_list ', ' '12345' %}
     {% ulist '1' '2' '3' '4' '5' %}
     
+    {% for user_info in users_with_groups %}
+        <li>{{ user_info.user.username }} - {% for group in user_info.groups %}{{ group.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</li>
+    {% endfor %}
+    
     <p>
         {% for d in date_list %}
             {{ d.year }} / <a href="{% url 'bboard:month' year=d.year month=d.month %}">{{ d.month }}</a>

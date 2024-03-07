@@ -90,11 +90,11 @@ def delete(request, pk):
 #         pass
 
 
-admin = User.objects.get(username='admin')
-if admin.check_password('password'):
-    pass
-else:
-    pass
-
-admin.set_password('newpassword')
-admin.save()
+# admin = User.objects.get(username='admin')
+# if admin.check_password('password'):
+#     pass
+# else:
+#     pass
+#
+# admin.set_password('newpassword')
+# admin.save()

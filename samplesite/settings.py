@@ -58,7 +58,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # 'bboard.middlewares.my_middleware',
     # 'bboard.middlewares.MyMiddleware',
-    # 'bboard.middlewares.RubricMiddleware'
+    # 'bboard.middlewares.RubricMiddleware',
+    'bboard.middlewares.UserMiddleware'
 
 ]
 
