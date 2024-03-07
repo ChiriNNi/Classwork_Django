@@ -2,6 +2,7 @@ import json
 import os
 from datetime import datetime
 
+from django.contrib.auth.models import User
 from django.core.serializers.json import DjangoJSONEncoder
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.http import StreamingHttpResponse, FileResponse, JsonResponse
@@ -82,3 +83,18 @@ def delete(request, pk):
     img.img.delete()
     img.delete()
     return redirect('test:add')
+
+
+# def hide_comment(request):
+#     if request.user.has_perm('testapp.hide_comments'):
+#         pass
+
+
+admin = User.objects.get(username='admin')
+if admin.check_password('password'):
+    pass
+else:
+    pass
+
+admin.set_password('newpassword')
+admin.save()

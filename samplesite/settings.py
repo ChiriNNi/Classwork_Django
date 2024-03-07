@@ -56,6 +56,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'bboard.middlewares.my_middleware',
+    # 'bboard.middlewares.MyMiddleware',
+    # 'bboard.middlewares.RubricMiddleware'
+
 ]
 
 ROOT_URLCONF = 'samplesite.urls'
@@ -71,6 +75,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'bboard.middlewares.rubrics'
             ],
         },
     },
@@ -106,15 +112,23 @@ DATABASES = {
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+          'min_length': 8,
+        },
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+    {
+        'NAME': 'samplesite.validators.NoForbiddenCharsValidator',
+        'OPTIONS': {'forbidden_chars': (' ', ',', '.', '-')}
     },
 ]
 

@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate, login, logout
 from django.core.paginator import Paginator
 from django.db import transaction
 from django.db.models import Count
@@ -147,19 +148,19 @@ def exclude_values(request):
     context = {'bbs': bbs}
     return render(request, 'exclude_values.html', context)
 
-# class BbIndexView(ListView):
-#     model = Bb
-#     template_name = 'index.html'
-#     context_object_name = 'bbs'
-#     paginate_by = 2
-#
-#     def get_queryset(self):
-#         return Bb.objects.all()
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['rubrics'] = Rubric.objects.annotate(count=Count('bb')).filter(count__gt=0)
-#         return context
+class BbIndexView(ListView):
+    model = Bb
+    template_name = 'index.html'
+    context_object_name = 'bbs'
+    paginate_by = 2
+
+    def get_queryset(self):
+        return Bb.objects.all()
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['rubrics'] = Rubric.objects.annotate(count=Count('bb')).filter(count__gt=0)
+    #     return context
 
 
 class BbMonthView(MonthArchiveView):
@@ -171,10 +172,10 @@ class BbMonthView(MonthArchiveView):
     context_object_name = 'bbs'
     allow_empty = True
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['rubrics'] = Rubric.objects.annotate(count=Count('bb')).filter(count__gt=0)
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['rubrics'] = Rubric.objects.annotate(count=Count('bb')).filter(count__gt=0)
+    #     return context
 
 
 class BbByRubricView(ListView):
@@ -186,7 +187,7 @@ class BbByRubricView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['rubrics'] = Rubric.objects.all()
+        # context['rubrics'] = Rubric.objects.all()
         context['current_rubric'] = Rubric.objects.get(pk=self.kwargs['rubric_id'])
         return context
 
@@ -253,10 +254,10 @@ def ice_cream(request):
 class BbDetailView(DetailView):
     model = Bb
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['rubric'] = Rubric.objects.all()
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['rubric'] = Rubric.objects.all()
+    #     return context
 
 
 def detail(request, pk):
@@ -280,10 +281,10 @@ class BbCreateView(CreateView):
     form_class = BbForm
     success_url = '/'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['rubrics'] = Rubric.objects.all()
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['rubrics'] = Rubric.objects.all()
+    #     return context
 
 
 class BbEditView(UpdateView):
@@ -291,20 +292,20 @@ class BbEditView(UpdateView):
     form_class = BbForm
     success_url = '/'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['rubrics'] = Rubric.objects.all()
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['rubrics'] = Rubric.objects.all()
+    #     return context
 
 
 class BbDeleteView(DeleteView):
     model = Bb
     success_url = '/'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['rubrics'] = Rubric.objects.all()
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['rubrics'] = Rubric.objects.all()
+    #     return context
 
 
 # class BbAddView(FormView):
@@ -355,3 +356,29 @@ def search(request):
         sf = SearchForm()
     context = {'form': sf}
     return render(request, 'bboard/search.html', context)
+
+
+def my_login(request):
+    username = request.POST['username']
+    password = request.POST['password']
+
+    user = authenticate(request, username=username, password=password)
+
+    if user is not None:
+        login(request, user)
+    else:
+        pass
+
+
+def my_logout(request):
+    logout(request)
+
+if __name__=='__main__':
+    admin = User.objects.get(username='admin')
+    if admin.check_password('password'):
+        pass
+    else:
+        pass
+
+    admin.set_password('newpassword')
+    admin.save()
