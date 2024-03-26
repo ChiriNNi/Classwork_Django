@@ -125,7 +125,7 @@ class Bb(models.Model):
         # validators=[validate_even,
         #             MinMaxValueValidator(25, 45)]
     )
-    is_active = models.BooleanField(default=is_active_default)
+    is_activate = models.BooleanField(default=is_active_default)
     published = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name="Опубликовано")
     updated = models.DateTimeField(auto_now=True, db_index=True, verbose_name="Изменено")
 
