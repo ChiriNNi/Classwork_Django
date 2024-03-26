@@ -151,3 +151,49 @@ class Img(models.Model):
 #             ('hide_comment', 'Можно скрывать комментарии')
 #         )
 #         default_permissions = ('change', 'delete')
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=100, verbose_name='Название категории')
+    description = models.TextField(blank=True, null=True, verbose_name='Описание категории')
+
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
+
+    def __str__(self):
+        return self.name
+
+
+class Author(models.Model):
+    name = models.CharField(max_length=255, verbose_name='Имя автора')
+
+    class Meta:
+        verbose_name = 'Автор'
+        verbose_name_plural = 'Авторы'
+
+    def __str__(self):
+        return self.name
+
+
+class Article(models.Model):
+    title = models.CharField(max_length=255, verbose_name='Заголовок')
+    content = models.TextField(verbose_name='Содержание')
+    author = models.ForeignKey(Author, on_delete=models.CASCADE, verbose_name='Автор')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Категория')
+    image = models.ImageField(upload_to='article_images/', blank=True, null=True, verbose_name='Изображение')
+    active = models.BooleanField(default=False, verbose_name='Активная')
+
+    class Meta:
+        verbose_name = 'Статья'
+        verbose_name_plural = 'Статьи'
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse('article_detail', args=[str(self.id)])
+
+
