@@ -209,3 +209,18 @@ class BBCodeText(models.Model):
 
     def __str__(self):
         return f'BBCodeText #{self.pk}'
+
+
+class Course(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class Student(models.Model):
+    name = models.CharField(max_length=100)
+    courses = models.ManyToManyField(Course, related_name='students')
+
+    def __str__(self):
+        return self.name

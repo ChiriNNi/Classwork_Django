@@ -15,8 +15,8 @@ from django.views.decorators.http import require_http_methods, require_GET, requ
 
 from bboard.models import Rubric, Bb
 from samplesite.settings import BASE_DIR
-from testapp.forms import ImgForm, DocumentForm, BBCodeForm
-from testapp.models import Img, BBCodeText
+from testapp.forms import ImgForm, DocumentForm, BBCodeForm, CourseForm, StudentForm
+from testapp.models import Img, BBCodeText, Course, Student
 
 FILES_ROOT = os.path.join(BASE_DIR, 'files')
 
@@ -214,3 +214,35 @@ def create_bbcode_text(request):
 def view_bbcode_text(request, pk):
     bbcode_text = BBCodeText.objects.get(pk=pk)
     return render(request, 'testapp/view_bbcode_text.html', {'bbcode_text': bbcode_text})
+
+
+def add_course(request):
+    if request.method == 'POST':
+        form = CourseForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('test:course_list')
+    else:
+        form = CourseForm()
+    return render(request, 'testapp/add_course.html', {'form': form})
+
+
+def add_student(request):
+    if request.method == 'POST':
+        form = StudentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('test:student_list')
+    else:
+        form = StudentForm()
+    return render(request, 'testapp/add_student.html', {'form': form})
+
+
+def course_list(request):
+    courses = Course.objects.all()
+    return render(request, 'testapp/course_list.html', {'courses': courses})
+
+
+def student_list(request):
+    students = Student.objects.all()
+    return render(request, 'testapp/student_list.html', {'students': students})

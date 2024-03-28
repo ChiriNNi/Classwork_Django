@@ -1,7 +1,7 @@
 from django import forms
 from django.core import validators
 
-from .models import Img, Document, BBCodeText
+from .models import Img, Document, BBCodeText, Course, Student
 
 
 class ImgForm(forms.ModelForm):
@@ -37,3 +37,15 @@ class BBCodeForm(forms.ModelForm):
     class Meta:
         model = BBCodeText
         fields = ['bbcode_content']
+
+
+class CourseForm(forms.ModelForm):
+    class Meta:
+        model = Course
+        fields = ['name']
+
+
+class StudentForm(forms.ModelForm):
+    class Meta:
+        model = Student
+        fields = ['name', 'courses']
