@@ -1,0 +1,10 @@
+{% extends "layout/basic.html" %}
+
+{% block title %}View BBCode Text{% endblock %}
+
+{% block content %}
+
+    <h1>Просмотр BBCode текста:</h1>
+    {{ bbcode_text.bbcode_content|safe }}
+    
+{% endblock content %}

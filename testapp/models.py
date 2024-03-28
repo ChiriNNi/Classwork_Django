@@ -8,6 +8,7 @@ from django.contrib.postgres.indexes import GistIndex
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import JSONField
+from precise_bbcode.fields import BBCodeTextField
 
 
 class AdvUser(models.Model):
@@ -201,3 +202,10 @@ class Article(models.Model):
     def get_absolute_url(self):
         from django.urls import reverse
         return reverse('article_detail', args=[str(self.id)])
+
+
+class BBCodeText(models.Model):
+    bbcode_content = BBCodeTextField(null=True, blank=True, verbose_name='Описание')
+
+    def __str__(self):
+        return f'BBCodeText #{self.pk}'

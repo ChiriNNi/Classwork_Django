@@ -15,9 +15,8 @@ from django.views.decorators.http import require_http_methods, require_GET, requ
 
 from bboard.models import Rubric, Bb
 from samplesite.settings import BASE_DIR
-from testapp.forms import ImgForm, DocumentForm
-from testapp.models import Img
-
+from testapp.forms import ImgForm, DocumentForm, BBCodeForm
+from testapp.models import Img, BBCodeText
 
 FILES_ROOT = os.path.join(BASE_DIR, 'files')
 
@@ -105,7 +104,6 @@ def delete(request, pk):
     img.img.delete()
     img.delete()
     return redirect('test:add')
-
 
 
 def add_document(request):
@@ -200,3 +198,19 @@ def test_email(request):
                 html_message='<strong>Админы, не спите!!!</strong>')
 
     return redirect('test:index')
+
+
+def create_bbcode_text(request):
+    if request.method == 'POST':
+        form = BBCodeForm(request.POST)
+        if form.is_valid():
+            bbcode_text = form.save()
+            return redirect('test:view_bbcode_text', pk=bbcode_text.pk)
+    else:
+        form = BBCodeForm()
+    return render(request, 'testapp/create_bbcode_text.html', {'form': form})
+
+
+def view_bbcode_text(request, pk):
+    bbcode_text = BBCodeText.objects.get(pk=pk)
+    return render(request, 'testapp/view_bbcode_text.html', {'bbcode_text': bbcode_text})
