@@ -323,6 +323,14 @@ CACHES = {
             'MAX_ENTRIES': 200,
         }
     },
+    # 'default': {
+    #     'BACKEND': 'django_redis.cache.RedisCache',
+    #     'LOCATION': 'cache_table',
+    #     'TIMEOUT': 120,
+    #     'OPTIONS': {
+    #         'MAX_ENTRIES': 200,
+    #     }
+    # },
 }
 
 # CACHE_MIDDLEWARE_ALIAS = 'default'

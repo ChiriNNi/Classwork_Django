@@ -15,7 +15,7 @@ from django.views.decorators.http import require_http_methods, require_GET, requ
 
 from bboard.models import Rubric, Bb
 from samplesite.settings import BASE_DIR
-from testapp.forms import ImgForm
+from testapp.forms import ImgForm, DocumentForm
 from testapp.models import Img
 
 
@@ -105,6 +105,30 @@ def delete(request, pk):
     img.img.delete()
     img.delete()
     return redirect('test:add')
+
+
+
+def add_document(request):
+    if request.method == 'POST':
+        form = DocumentForm(request.POST, request.FILES)
+        if form.is_valid():
+            uploaded_file = request.FILES['file']
+            documents_path = os.path.join(FILES_ROOT, 'documents')
+            if not os.path.exists(documents_path):
+                os.makedirs(documents_path)
+
+            fn = f'{datetime.now().timestamp()}{os.path.splitext(uploaded_file.name)[1]}'
+            fn = os.path.join(documents_path, fn)
+
+            with open(fn, 'wb+') as destination:
+                for chunk in uploaded_file.chunks():
+                    destination.write(chunk)
+
+            return redirect('test:add_document')
+    else:
+        form = DocumentForm()
+    context = {'form': form}
+    return render(request, 'testapp/add_document.html', context)
 
 
 # def hide_comment(request):

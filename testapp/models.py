@@ -153,6 +153,12 @@ class Img(models.Model):
 #         default_permissions = ('change', 'delete')
 
 
+class Document(models.Model):
+    title = models.CharField(max_length=255)
+    file = models.FileField(upload_to=get_timestamp_path)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+
 class Category(models.Model):
     name = models.CharField(max_length=100, verbose_name='Название категории')
     description = models.TextField(blank=True, null=True, verbose_name='Описание категории')
