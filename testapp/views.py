@@ -7,6 +7,7 @@ from django.core.mail import EmailMessage, get_connection, EmailMultiAlternative
     mail_admins
 from django.core.paginator import Paginator
 from django.core.serializers.json import DjangoJSONEncoder
+from django.db import transaction
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.http import StreamingHttpResponse, FileResponse, JsonResponse
 from django.template.loader import render_to_string
@@ -17,7 +18,7 @@ from django.views.decorators.http import require_http_methods, require_GET, requ
 from bboard.models import Rubric, Bb
 from samplesite.settings import BASE_DIR
 from testapp.forms import ImgForm, DocumentForm, BBCodeForm, CourseForm, StudentForm, ImageUploadForm
-from testapp.models import Img, BBCodeText, Course, Student
+from testapp.models import Img, BBCodeText, Course, Student, Document
 from PIL import Image
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
@@ -114,19 +115,28 @@ def add_document(request):
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
         if form.is_valid():
-            uploaded_file = request.FILES['file']
-            documents_path = os.path.join(FILES_ROOT, 'documents')
-            if not os.path.exists(documents_path):
-                os.makedirs(documents_path)
+            try:
+                with transaction.atomic():
+                    uploaded_file = request.FILES['file']
+                    documents_path = os.path.join(FILES_ROOT, 'documents')
+                    if not os.path.exists(documents_path):
+                        os.makedirs(documents_path)
 
-            fn = f'{datetime.now().timestamp()}{os.path.splitext(uploaded_file.name)[1]}'
-            fn = os.path.join(documents_path, fn)
+                    fn = f'{datetime.now().timestamp()}{os.path.splitext(uploaded_file.name)[1]}'
+                    fn = os.path.join(documents_path, fn)
 
-            with open(fn, 'wb+') as destination:
-                for chunk in uploaded_file.chunks():
-                    destination.write(chunk)
+                    with open(fn, 'wb+') as destination:
+                        for chunk in uploaded_file.chunks():
+                            destination.write(chunk)
 
-            return redirect('test:add_document')
+                    document = Document.objects.create(
+                        title=form.cleaned_data['title'],
+                        file=os.path.relpath(fn, FILES_ROOT)
+                    )
+
+                    return redirect('test:add_document')
+            except Exception as e:
+                transaction.set_rollback(True)
     else:
         form = DocumentForm()
     context = {'form': form}
