@@ -215,6 +215,10 @@ class BBCodeText(models.Model):
 
 class Course(models.Model):
     name = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+    teacher = models.CharField(max_length=100, null=True, blank=True)
+    duration_weeks = models.PositiveIntegerField(default=4)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
@@ -222,6 +226,8 @@ class Course(models.Model):
 
 class Student(models.Model):
     name = models.CharField(max_length=100)
+    age = models.PositiveIntegerField(null=True, blank=True)
+    email = models.EmailField(null=True, blank=True)
     courses = models.ManyToManyField(Course, related_name='students')
 
     def __str__(self):

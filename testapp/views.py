@@ -17,7 +17,7 @@ from django.views.decorators.http import require_http_methods, require_GET, requ
 
 from bboard.models import Rubric, Bb
 from samplesite.settings import BASE_DIR
-from testapp.forms import ImgForm, DocumentForm, BBCodeForm, CourseForm, StudentForm, ImageUploadForm
+from testapp.forms import ImgForm, DocumentForm, BBCodeForm, ImageUploadForm
 from testapp.models import Img, BBCodeText, Course, Student, Document
 from PIL import Image
 from django.core.files.storage import FileSystemStorage

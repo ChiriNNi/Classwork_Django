@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import AdvUser, Machine, Spare, Img, Category, Author, Article
+from .models import AdvUser, Machine, Spare, Img, Category, Author, Article, Student, Course
 
 
 @admin.register(Article)
@@ -22,6 +22,8 @@ class ArticleAdmin(admin.ModelAdmin):
 
 admin.site.register(Category)
 admin.site.register(Author)
+admin.site.register(Course)
+admin.site.register(Student)
 # admin.site.register(AdvUser)
 # admin.site.register(Machine)
 # admin.site.register(Spare)
