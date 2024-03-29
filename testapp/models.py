@@ -8,6 +8,7 @@ from django.contrib.postgres.indexes import GistIndex
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import JSONField
+from django.views.generic.dates import BaseDateListView
 from localflavor.generic.models import BICField
 from precise_bbcode.fields import BBCodeTextField
 
@@ -223,6 +224,17 @@ class Course(models.Model):
     def __str__(self):
         return self.name
 
+    @classmethod
+    def get_active_courses(cls):
+        return cls.objects.filter(is_active=True)
+
+    @classmethod
+    def get_course_by_name(cls, name):
+        try:
+            return cls.objects.get(name=name)
+        except cls.DoesNotExist:
+            return None
+
 
 class Student(models.Model):
     name = models.CharField(max_length=100)
@@ -232,3 +244,31 @@ class Student(models.Model):
 
     def __str__(self):
         return self.name
+
+    @classmethod
+    def get_students_by_course(cls, course_name):
+        return cls.objects.filter(courses__name=course_name)
+
+    @classmethod
+    def get_student_by_email(cls, email):
+        try:
+            return cls.objects.get(email=email)
+        except cls.DoesNotExist:
+            return None
+
+
+class StudentCourse(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    enrollment_date = models.DateField()
+    completion_date = models.DateField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.student.name} - {self.course.name}"
+
+
+class StudentCourseListView(BaseDateListView):
+    model = StudentCourse
+    date_field = 'enrollment_date'
+    allow_future = True
+    template_name = 'index.html'

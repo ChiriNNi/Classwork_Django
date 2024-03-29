@@ -12,17 +12,24 @@
     {#        </div>#}
     {#    {% endfor %}#}
 
-    <h1>Thumbnail Preview</h1>
-    {% if thumbnails_urls %}
-        <div>
-            {% for thumbnail_url in thumbnails_urls %}
-                <div>
-                    <img src="{{ thumbnail_url }}" alt="Thumbnail">
-                </div>
-            {% endfor %}
-        </div>
-    {% else %}
-        <p>No thumbnails available</p>
-    {% endif %}
+{#    <h1>Thumbnail Preview</h1>#}
+{#    {% if thumbnails_urls %}#}
+{#        <div>#}
+{#            {% for thumbnail_url in thumbnails_urls %}#}
+{#                <div>#}
+{#                    <img src="{{ thumbnail_url }}" alt="Thumbnail">#}
+{#                </div>#}
+{#            {% endfor %}#}
+{#        </div>#}
+{#    {% else %}#}
+{#        <p>No thumbnails available</p>#}
+{#    {% endif %}#}
+
+    <h1>Student Course List</h1>
+    <ul>
+        {% for student_course in object_list %}
+            <li>{{ student_course.student.name }} - {{ student_course.course.name }}</li>
+        {% endfor %}
+    </ul>
 
 {% endblock content %}
