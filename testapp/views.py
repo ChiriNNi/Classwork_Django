@@ -5,6 +5,7 @@ from datetime import datetime
 from django.contrib.auth.models import User
 from django.core.mail import EmailMessage, get_connection, EmailMultiAlternatives, send_mail, send_mass_mail, \
     mail_admins
+from django.core.paginator import Paginator
 from django.core.serializers.json import DjangoJSONEncoder
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.http import StreamingHttpResponse, FileResponse, JsonResponse
@@ -15,8 +16,11 @@ from django.views.decorators.http import require_http_methods, require_GET, requ
 
 from bboard.models import Rubric, Bb
 from samplesite.settings import BASE_DIR
-from testapp.forms import ImgForm, DocumentForm, BBCodeForm, CourseForm, StudentForm
+from testapp.forms import ImgForm, DocumentForm, BBCodeForm, CourseForm, StudentForm, ImageUploadForm
 from testapp.models import Img, BBCodeText, Course, Student
+from PIL import Image
+from django.core.files.storage import FileSystemStorage
+from django.conf import settings
 
 FILES_ROOT = os.path.join(BASE_DIR, 'files')
 
@@ -246,3 +250,44 @@ def course_list(request):
 def student_list(request):
     students = Student.objects.all()
     return render(request, 'testapp/student_list.html', {'students': students})
+
+
+
+thumbnails_urls = []
+
+
+def upload_and_create_thumbnail(request):
+    paginator = Paginator(thumbnails_urls, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    if request.method == 'POST':
+        form = ImageUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            uploaded_image = request.FILES['image']
+            thumbnail_size = form.cleaned_data['thumbnail_size']
+
+            image = Image.open(uploaded_image)
+
+            thumbnail_size = (thumbnail_size, thumbnail_size)
+            image.thumbnail(thumbnail_size)
+
+            thumbnails_dir = os.path.join(settings.MEDIA_ROOT, 'thumbnails')
+            if not os.path.exists(thumbnails_dir):
+                os.makedirs(thumbnails_dir)
+
+            thumbnail_path = os.path.join(thumbnails_dir, uploaded_image.name)
+
+            image.save(thumbnail_path)
+
+            thumbnail_url = os.path.join(settings.MEDIA_URL, 'thumbnails', uploaded_image.name)
+
+            thumbnails_urls.append(thumbnail_url)
+
+            return render(request, 'testapp/index.html',
+                          {'thumbnails_urls': thumbnails_urls, 'form': form, 'page_obj': page_obj})
+    else:
+        form = ImageUploadForm()
+
+    return render(request, 'testapp/upload.html', {'form': form})
+

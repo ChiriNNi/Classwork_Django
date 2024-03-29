@@ -33,6 +33,11 @@ class DocumentForm(forms.ModelForm):
         fields = ['title', 'file']
 
 
+class ImageUploadForm(forms.Form):
+    image = forms.ImageField(label='Загрузить изображение')
+    thumbnail_size = forms.IntegerField(label='Желаемый размер миниатюры (px)', initial=200)
+
+
 class BBCodeForm(forms.ModelForm):
     class Meta:
         model = BBCodeText

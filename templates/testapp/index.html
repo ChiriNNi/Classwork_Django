@@ -4,12 +4,25 @@
 
 {% block content %}
 
-    {% for img in imgs %}
-        <div class="image">
-            <p>
-                <img src="{% url 'test:get' filename=img %}" alt="">
-            </p>
+    {#    {% for img in imgs %}#}
+    {#        <div class="image">#}
+    {#            <p>#}
+    {#                <img src="{% url 'test:get' filename=img %}" alt="">#}
+    {#            </p>#}
+    {#        </div>#}
+    {#    {% endfor %}#}
+
+    <h1>Thumbnail Preview</h1>
+    {% if thumbnails_urls %}
+        <div>
+            {% for thumbnail_url in thumbnails_urls %}
+                <div>
+                    <img src="{{ thumbnail_url }}" alt="Thumbnail">
+                </div>
+            {% endfor %}
         </div>
-    {% endfor %}
-    
+    {% else %}
+        <p>No thumbnails available</p>
+    {% endif %}
+
 {% endblock content %}
