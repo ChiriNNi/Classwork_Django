@@ -8,6 +8,7 @@ from django.contrib.postgres.indexes import GistIndex
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import JSONField
+from localflavor.generic.models import BICField
 from precise_bbcode.fields import BBCodeTextField
 
 
@@ -174,6 +175,7 @@ class Category(models.Model):
 
 class Author(models.Model):
     name = models.CharField(max_length=255, verbose_name='Имя автора')
+    bic = BICField(verbose_name='Банковский идентификационный код')
 
     class Meta:
         verbose_name = 'Автор'

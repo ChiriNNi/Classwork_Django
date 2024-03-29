@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     'django_cleanup',
     'easy_thumbnails',
+    'localflavor',
 
     'bboard.apps.BboardConfig',  # 'bboard',
     'testapp',
