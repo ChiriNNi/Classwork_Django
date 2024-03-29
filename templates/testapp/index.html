@@ -32,4 +32,11 @@
         {% endfor %}
     </ul>
 
+    <h1>SMS Messages List</h1>
+    <ul>
+        {% for sms_message in sms_messages %}
+            <li>{{ sms_message.sender }} - {{ sms_message.timestamp }}</li>
+            <p>{{ sms_message.message }}</p>
+        {% endfor %}
+    </ul>
 {% endblock content %}

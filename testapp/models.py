@@ -272,3 +272,12 @@ class StudentCourseListView(BaseDateListView):
     date_field = 'enrollment_date'
     allow_future = True
     template_name = 'index.html'
+
+
+class SMSMessage(models.Model):
+    sender = models.CharField(max_length=100)
+    message = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.sender} - {self.timestamp}"

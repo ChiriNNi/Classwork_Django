@@ -14,11 +14,12 @@ from django.template.loader import render_to_string
 from django.urls import resolve
 from django.views.decorators.gzip import gzip_page
 from django.views.decorators.http import require_http_methods, require_GET, require_POST, require_safe
+from django.views.generic import ListView
 
 from bboard.models import Rubric, Bb
 from samplesite.settings import BASE_DIR
 from testapp.forms import ImgForm, DocumentForm, BBCodeForm, ImageUploadForm
-from testapp.models import Img, BBCodeText, Course, Student, Document
+from testapp.models import Img, BBCodeText, Course, Student, Document, SMSMessage
 from PIL import Image
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
@@ -230,28 +231,6 @@ def view_bbcode_text(request, pk):
     return render(request, 'testapp/view_bbcode_text.html', {'bbcode_text': bbcode_text})
 
 
-def add_course(request):
-    if request.method == 'POST':
-        form = CourseForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('test:course_list')
-    else:
-        form = CourseForm()
-    return render(request, 'testapp/add_course.html', {'form': form})
-
-
-def add_student(request):
-    if request.method == 'POST':
-        form = StudentForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('test:student_list')
-    else:
-        form = StudentForm()
-    return render(request, 'testapp/add_student.html', {'form': form})
-
-
 def course_list(request):
     courses = Course.objects.all()
     return render(request, 'testapp/course_list.html', {'courses': courses})
@@ -301,3 +280,8 @@ def upload_and_create_thumbnail(request):
 
     return render(request, 'testapp/upload.html', {'form': form})
 
+
+class SMSMessageListView(ListView):
+    model = SMSMessage
+    template_name = 'index.html'
+    context_object_name = 'sms_messages'

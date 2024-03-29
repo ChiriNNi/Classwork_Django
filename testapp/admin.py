@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import AdvUser, Machine, Spare, Img, Category, Author, Article, Student, Course
+from .models import AdvUser, Machine, Spare, Img, Category, Author, Article, Student, Course, SMSMessage
 
 
 @admin.register(Article)
@@ -24,6 +24,7 @@ admin.site.register(Category)
 admin.site.register(Author)
 admin.site.register(Course)
 admin.site.register(Student)
+admin.site.register(SMSMessage)
 # admin.site.register(AdvUser)
 # admin.site.register(Machine)
 # admin.site.register(Spare)
