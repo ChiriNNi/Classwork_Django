@@ -16,7 +16,7 @@ class ArticleAdmin(admin.ModelAdmin):
     search_fields = ('title', 'author')
     list_filter = ('category', 'author')
     readonly_fields = ('created_at',)
-    list_display_links = None
+    list_display_links = ('title',)
     list_editable = ('author', 'category')
 
 
