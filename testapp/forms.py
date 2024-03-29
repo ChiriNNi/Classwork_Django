@@ -1,3 +1,4 @@
+from captcha.fields import CaptchaField
 from django import forms
 from django.core import validators
 
@@ -36,6 +37,8 @@ class DocumentForm(forms.ModelForm):
 class ImageUploadForm(forms.Form):
     image = forms.ImageField(label='Загрузить изображение')
     thumbnail_size = forms.IntegerField(label='Желаемый размер миниатюры (px)', initial=200)
+    captcha = CaptchaField(label='Введите текст с картинки',
+                           error_messages={'invalid': 'Неправильный текст'})
 
 
 class BBCodeForm(forms.ModelForm):
