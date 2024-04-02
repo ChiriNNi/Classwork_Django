@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'bootstrap4',
     'django_cleanup',
     'easy_thumbnails',
+    'rest_framework',
+    'corsheaders',
 
     'bboard.apps.BboardConfig',  # 'bboard',
     'testapp',
@@ -60,6 +62,7 @@ MIDDLEWARE = [
     # 'django.middleware.cache.UpdateCacheMiddleware',  # для кэша
 
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
 
     # 'django.middleware.cache.FetchFromCacheMiddleware',  # для кэша
@@ -335,3 +338,20 @@ CACHES = {
 
 # CACHE_MIDDLEWARE_ALIAS = 'default'
 # CACHE_MIDDLEWARE_SECONDS = 600  # сек
+
+
+# CORS_ORIGIN_ALLOW_ALL = False
+# CORS_ORIGIN_WHITELIST = [
+#     'http://www.bboard.kz',
+#     'https://www.bboard.ru',
+#     'https://admin.bboard.ru',
+# ]
+# CORS_ORIGIN_REGEX_WHITELIST = [
+#     r'^https?://(www|admin)\.bboard\.ru$',
+# ]
+# CORS_URLS_REGEX = [
+#     '^.*$',
+# ]
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_URLS_REGEX = '^/api/.*$'
