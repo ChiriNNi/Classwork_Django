@@ -30,7 +30,10 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+]
 
 
 # Application definition
@@ -43,6 +46,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.postgres',
+
+    'rest_framework',
+    'corsheaders',
 
     'captcha',
     'precise_bbcode',
@@ -60,6 +66,7 @@ MIDDLEWARE = [
     # 'django.middleware.cache.UpdateCacheMiddleware',  # для кэша
 
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
 
     # 'django.middleware.cache.FetchFromCacheMiddleware',  # для кэша
@@ -327,3 +334,23 @@ CACHES = {
 
 # CACHE_MIDDLEWARE_ALIAS = 'default'
 # CACHE_MIDDLEWARE_SECONDS = 600  # сек
+
+
+# CORS_ORIGIN_ALLOW_ALL = False
+# CORS_ORIGIN_WHITELIST = [
+#     'http://www.bboard.kz',
+#     'https://www.bboard.ru',
+#     'https://admin.bboard.ru',
+# ]
+# CORS_ORIGIN_REGEX_WHITELIST = [
+#     r'^https?://(www|admin)\.bboard\.ru$',
+# ]
+# CORS_URLS_REGEX = '^.*$'
+
+# CORS_ORIGIN_ALLOW_ALL = True
+# CORS_URLS_REGEX = '^/api/.*$'
+
+CORS_ORIGIN_WHITELIST = [
+    'http://127.0.0.1:5500',
+    'http://localhost:5500',
+]

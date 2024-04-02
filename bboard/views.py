@@ -11,7 +11,7 @@ from django.db import transaction
 from django.db.models import Count
 from django.forms import modelformset_factory, inlineformset_factory
 from django.forms.formsets import ORDERING_FIELD_NAME
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.decorators.cache import cache_page
@@ -21,7 +21,10 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from precise_bbcode.bbcode import get_parser
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
+from bboard.serializers import RubricSerializer
 from .forms import BbForm, RubricBaseFormSet, SearchForm
 from .models import Bb, Rubric
 
@@ -360,3 +363,19 @@ if __name__ == '__main__':
 
     # admin.set_password('newpassword')
     # admin.save()
+
+
+@api_view(['GET'])
+def api_rubrics(request):
+    if request.method == 'GET':
+        rubrics = Rubric.objects.all()
+        serializer = RubricSerializer(rubrics, many=True)
+        return Response(serializer.data)
+
+
+@api_view(['GET'])
+def api_rubrics_detail(request, pk):
+    rubric = Rubric.objects.get(pk=pk)
+    if request.method == 'GET':
+        serializer = RubricSerializer(rubric)
+        return Response(serializer.data)
