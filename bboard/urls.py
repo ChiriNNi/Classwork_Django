@@ -5,7 +5,7 @@ from django.views.decorators.cache import cache_page
 from .views import (index,
                     BbIndexView, BbMonthView, BbByRubricView,
                     BbCreateView, BbDetailView, BbEditView, BbDeleteView,
-                    BbRedirectView, edit, add_save, rubrics, bbs, search, api_rubrics, api_rubrics_detail)
+                    BbRedirectView, edit, add_save, rubrics, bbs, search, api_rubrics, api_rubrics_detail, api_bbs)
 
 
 app_name = 'bboard'
@@ -13,6 +13,8 @@ app_name = 'bboard'
 urlpatterns = [
     path('api/rubrics/<int:pk>/', api_rubrics_detail),
     path('api/rubrics/', api_rubrics),
+
+    path('api/bbs/', api_bbs),
 
     path('detail/<int:pk>/', BbDetailView.as_view(), name='detail'),
     path('add/save/', add_save, name='add_save'),
