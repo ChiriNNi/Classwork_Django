@@ -21,9 +21,11 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from precise_bbcode.bbcode import get_parser
-from rest_framework import status
+from rest_framework import status, generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 
 from bboard.serializers import RubricSerializer
 from .forms import BbForm, RubricBaseFormSet, SearchForm
@@ -353,19 +355,6 @@ def my_logout(request):
     # Неплохо бы перенаправить
 
 
-if __name__ == '__main__':
-    admin = User.objects.get(name='admin')
-    if admin.check_password('password'):
-        # Пароли совпадают
-        pass
-    else:
-        # Пароли не совпадают
-        pass
-
-    # admin.set_password('newpassword')
-    # admin.save()
-
-
 @api_view(['GET', 'POST'])
 def api_rubrics(request):
     if request.method == 'GET':
@@ -398,3 +387,82 @@ def api_rubrics_detail(request, pk):
     elif request.method == 'DELETE':
         rubric.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+# lesson_48
+
+# Низкоуровневые
+# class APIRubrics(APIView):
+#     def get(self, request):
+#         rubrics = Rubric.objects.all()
+#         serializer = RubricSerializer(rubrics, many=True)
+#         return Response(serializer.data)
+#
+#     def post(self, request):
+#         serializer = RubricSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data,
+#                             status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors,
+#                         status=status.HTTP_400_BAD_REQUEST)
+#
+#
+# class APIRubricsDetail(APIView):
+#
+#     def get(self, request, pk):
+#         rubric = Rubric.objects.get(pk=pk)
+#         serializer = RubricSerializer(rubric)
+#         return Response(serializer.data)
+#
+#     def put(self, request, pk):
+#         rubric = Rubric.objects.get(pk=pk)
+#         serializer = RubricSerializer(rubric, data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         return Response(serializer.errors,
+#                         status=status.HTTP_400_BAD_REQUEST)
+#
+#     def patch(self, request, pk):
+#         rubric = Rubric.objects.get(pk=pk)
+#         serializer = RubricSerializer(rubric, data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         return Response(serializer.errors,
+#                         status=status.HTTP_400_BAD_REQUEST)
+#
+#     def delete(self, request, pk):
+#         rubric = Rubric.objects.get(pk=pk)
+#         rubric.delete()
+#         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+# Высокоуровневые
+# Комбинированные
+# class APIRubrics(generics.ListCreateAPIView):
+#     queryset = Rubric.objects.all()
+#     serializer_class = RubricSerializer
+#
+#
+# class APIRubricsDetail(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = Rubric.objects.all()
+#     serializer_class = RubricSerializer
+
+
+# Простой
+# class APIRubricsList(generics.ListAPIView):
+#     queryset = Rubric.objects.all()
+#     serializer_class = RubricSerializer
+
+
+# Метаконтроллер
+class APIRubricViewSet(ModelViewSet):
+    queryset = Rubric.objects.all()
+    serializer_class = RubricSerializer
+
+
+# Только для чтения
+# class APIRubricsViewSet(ReadOnlyModelViewSet):
+#     queryset = Rubric.objects.all()
+#     serializer_class = RubricSerializer
