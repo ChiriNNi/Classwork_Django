@@ -12,4 +12,4 @@ class RubricSerializer(serializers.ModelSerializer):
 class BbSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bb
-        fields = ('title', 'price', 'published')
+        fields = ('id', 'title', 'price', 'published', 'content')

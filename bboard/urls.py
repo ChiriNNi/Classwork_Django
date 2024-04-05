@@ -7,8 +7,8 @@ from .views import (index,
                     BbIndexView, BbMonthView, BbByRubricView,
                     BbCreateView, BbDetailView, BbEditView, BbDeleteView,
                     BbRedirectView, edit, add_save, rubrics, bbs, search, api_rubrics, api_rubrics_detail, api_bbs,
-                    # APIRubrics, APIRubricsDetail
-                    APIRubricViewSet, )
+    # APIRubrics, APIRubricsDetail
+                    APIRubricViewSet, api_bbs_detail, )
 
 
 app_name = 'bboard'
@@ -28,6 +28,7 @@ urlpatterns = [
     path('api/', include(router.urls)),
 
     path('api/bbs/', api_bbs),
+    path('api/bbs/<int:pk>/', api_bbs_detail),
 
     path('detail/<int:pk>/', BbDetailView.as_view(), name='detail'),
     path('add/save/', add_save, name='add_save'),
