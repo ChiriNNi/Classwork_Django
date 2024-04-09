@@ -96,7 +96,7 @@ class Bb(models.Model):
     kind = models.CharField(max_length=1, choices=KINDS, default='s', verbose_name='Тип объявления')
 
     rubric = models.ForeignKey("Rubric", on_delete=models.PROTECT,
-                               verbose_name='Рубрика', default='')
+                               verbose_name='Рубрика', default=None, null=True, blank=True)
     title = models.CharField(
         max_length=50,
         verbose_name="Товар",

@@ -12,6 +12,13 @@
         <p>Название: <input type="text" name="title" id="title"></p> 
         <p>Цена: <input type="text" name="price" id="price"></p> 
         <p>Описание: <input type="text" name="content" id="content"></p> 
+        <!-- <p>Рубрика: 
+            <select name="rubric" id="rubric">
+                {% for rubric in rubrics %}
+                    <option value="{{ rubric.id }}">{{ rubric.name }}</option>
+                {% endfor %}
+            </select>
+        </p> -->
         <p>
             <input type="reset" value="Очистить">
             <input type="submit" value="Сохранить">

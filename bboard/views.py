@@ -371,7 +371,7 @@ if __name__ == '__main__':
 
 
 @api_view(['GET', 'POST'])
-@permission_classes((IsAuthenticated,))
+# @permission_classes((IsAuthenticated,))
 def api_rubrics(request):
     if request.method == 'GET':
         rubrics = Rubric.objects.all()
@@ -409,7 +409,10 @@ def api_rubrics_detail(request, pk):
 def api_bbs(request):
     if request.method == 'GET':
         bbs = Bb.objects.all()
+        # rubrics = Rubric.objects.all()
         serializer = BbSerializer(bbs, many=True)
+        # rubric_serializer = RubricSerializer(rubrics, many=True)
+        # return Response({'bbs': serializer.data, 'rubrics': rubric_serializer.data})
         return Response(serializer.data)
     elif request.method == 'POST':
         serializer = BbSerializer(data=request.data)
