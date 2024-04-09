@@ -355,3 +355,8 @@ CACHES = {
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_URLS_REGEX = '^/api/.*$'
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    )
+}
