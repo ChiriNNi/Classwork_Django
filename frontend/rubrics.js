@@ -1,5 +1,9 @@
 const domain = 'http://localhost:8000/';
 
+const username = 'admin';
+const password = '123';
+const credentials = window.btoa(username + ':' + password);
+
 // let list = document.getElementById('list');
 let list = document.querySelector('#list');
 let listLoader = new XMLHttpRequest();
@@ -13,6 +17,7 @@ let rubricDeleter = new XMLHttpRequest();
 
 function listLoad() {
     listLoader.open('GET', domain + 'api/rubrics/', true);
+    listLoader.setRequestHeader('Authorization', 'Basic' + credentials);
     listLoader.send();
 }
 
