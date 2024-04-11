@@ -22,6 +22,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from precise_bbcode.bbcode import get_parser
 from rest_framework import status, generics
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -409,11 +410,11 @@ def api_rubrics_detail(request, pk):
 def api_bbs(request):
     if request.method == 'GET':
         bbs = Bb.objects.all()
-        # rubrics = Rubric.objects.all()
+        rubrics = Rubric.objects.all()
         serializer = BbSerializer(bbs, many=True)
-        # rubric_serializer = RubricSerializer(rubrics, many=True)
-        # return Response({'bbs': serializer.data, 'rubrics': rubric_serializer.data})
-        return Response(serializer.data)
+        rubric_serializer = RubricSerializer(rubrics, many=True)
+        return Response({'bbs': serializer.data, 'rubrics': rubric_serializer.data})
+        # return Response(serializer.data)
     elif request.method == 'POST':
         serializer = BbSerializer(data=request.data)
         if serializer.is_valid():
@@ -512,6 +513,7 @@ class APIRubricViewSet(ModelViewSet):
     queryset = Rubric.objects.all()
     serializer_class = RubricSerializer
     # permission_classes = (IsAuthenticated,)
+    # authentication_classes = (TokenAuthentication,)
 
 
 # Только для чтения

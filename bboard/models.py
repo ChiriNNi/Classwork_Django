@@ -126,7 +126,8 @@ class Bb(models.Model):
         #             MinMaxValueValidator(25, 45)]
     )
     is_active = models.BooleanField(default=is_active_default)
-    published = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name="Опубликовано")
+    published = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name="Опубликовано", blank=True,
+                                null=True,)
     updated = models.DateTimeField(auto_now=True, db_index=True, verbose_name="Изменено")
 
     picture = models.ImageField(verbose_name='Изображение',

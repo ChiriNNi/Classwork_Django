@@ -49,8 +49,11 @@ INSTALLED_APPS = [
     'bootstrap4',
     'django_cleanup',
     'easy_thumbnails',
+
     'rest_framework',
     'corsheaders',
+    'rest_framework.authtoken',
+    'djoser',
 
     'bboard.apps.BboardConfig',  # 'bboard',
     'testapp',
@@ -358,5 +361,10 @@ CORS_URLS_REGEX = '^/api/.*$'
 # REST_FRAMEWORK = {
 #     'DEFAULT_PERMISSION_CLASSES': (
 #         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
-#     )
+#     ),
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework.authentication.TokenAuthentication',
+#         'rest_framework.authentication.BasicAuthentication',
+#         'rest_framework.authentication.SessionAuthentication',
+#     ),
 # }

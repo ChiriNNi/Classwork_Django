@@ -17,14 +17,14 @@ router = DefaultRouter()
 router.register('rubrics', APIRubricViewSet)
 
 urlpatterns = [
-    # path('api/rubrics/<int:pk>/', api_rubrics_detail),
-    # path('api/rubrics/<int:pk>/', APIRubricsDetail.as_view()),
+    # path('api/v1/rubrics/<int:pk>/', api_rubrics_detail),
+    # path('api/v1/rubrics/<int:pk>/', APIRubricsDetail.as_view()),
 
-    # path('api/rubrics/', api_rubrics),
-    # path('api/rubrics/', APIRubrics.as_view()),
+    path('api/v1/rubrics/', api_rubrics),
+    # path('api/v1/rubrics/', APIRubrics.as_view()),
 
-    # api/rubrics/ - GET, POST
-    # api/rubrics/pk/ - GET, PUT, PATCH, DELETE
+    # api/v1/rubrics/ - GET, POST
+    # api/v1/rubrics/pk/ - GET, PUT, PATCH, DELETE
     path('api/', include(router.urls)),
 
     path('api/bbs/', api_bbs),

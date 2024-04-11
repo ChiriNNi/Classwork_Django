@@ -7,7 +7,7 @@ let title = document.querySelector('#title');
 let price = document.querySelector('#price');
 let content = document.querySelector('#content');
 let id = document.querySelector('#id');
-// let rubric = document.querySelector('#rubric'); 
+let rubricSelect = document.querySelector('#rubric'); 
 
 let bbLoader = new XMLHttpRequest();
 let bbUpdater = new XMLHttpRequest(); 
@@ -33,12 +33,12 @@ listLoader.addEventListener('readystatechange', () => {
     if (listLoader.readyState == 4) {
         if (listLoader.status == 200) {
             let data = JSON.parse(listLoader.responseText);
-            // let bbs = data.bbs; 
-            // let rubrics = data.rubrics; 
+            let bbs = data.bbs; 
+            let rubrics = data.rubrics; 
             let s = '';
-            for (let i = 0; i < data.length; i++) {
-                let d = data[i];
-                // let d = bbs[i];
+            for (let i = 0; i < bbs.length; i++) {
+                // let d = data[i];
+                let d = bbs[i];
                 let publishedDate = new Date(d.published);
                 let formattedDate = publishedDate.toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
                 s += '<tr>';
@@ -62,14 +62,14 @@ listLoader.addEventListener('readystatechange', () => {
                 link.addEventListener('click', bbDelete);
             });
 
-            // let rubricSelect = document.getElementById('rubric');
-            // rubricSelect.innerHTML = '';
-            // rubrics.forEach((rubric) => {
-            //     let option = document.createElement('option');
-            //     option.value = rubric.id;
-            //     option.textContent = rubric.name;
-            //     rubricSelect.appendChild(option);
-            // });
+            
+            rubricSelect.innerHTML = '';
+            rubrics.forEach((rubric) => {
+                let option = document.createElement('option');
+                option.value = rubric.id;
+                option.textContent = rubric.name;
+                rubricSelect.appendChild(option);
+            });
         } else {
             window.alert(listLoader.statusText);
         }
@@ -95,6 +95,8 @@ bbUpdater.addEventListener('readystatechange', () => {
             listLoad();
             title.form.reset();
             price.form.reset(); 
+            content.form.reset();
+            rubric.form.reset();
             id.value == '';
         } else {
             window.alert(bbUpdater.statusText);
@@ -112,25 +114,25 @@ bbDeleter.addEventListener('readystatechange', () => {
     }
 });
 
-document.querySelector('#bb_form').addEventListener('submit', (evt) => {     
+document.querySelector('#bb_form').addEventListener('submit', (evt) => {    
     evt.preventDefault();
     let vid = id.value, url, method;
-    // let rubricSelect = document.getElementById('rubric');
-    // let selectedRubricId = rubricSelect.value;
-    // let selectedRubric = rubrics.find(rubric => rubric.id === selectedRubricId); 
+    let selectedRubricId = rubricSelect.value;
     if (vid) {
+        window.alert('МЫ ЗДЕСЬ!')
         url = 'api/bbs/' + vid + '/';
         method = 'PUT'; 
     } else {
+        window.alert('МЫ ЗДЕСЬ!')
         url = 'api/bbs/';
         method = 'POST'; 
     }
     let data = JSON.stringify({
         id: vid,
-        name: title.value,
-        price: price.value,
-        // rubric: selectedRubric, 
-        published: new Date().toISOString(),
+        title: String(title.value),
+        price: `${price.value}`,
+        rubric: selectedRubricId, 
+        // published: new Date().toISOString(),
         content: content.value
     }); 
     bbUpdater.open(method, domain + url, true);
