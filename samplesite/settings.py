@@ -367,3 +367,70 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ),
 }
+
+
+def info_filter(message):
+    return message.level_name == 'INFO'
+
+
+LOGGING = {
+    'version': 1,
+    # 'disable_existing_loggers': True,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+        'info_filter': {
+            '()': 'django.utils.log.CallbackFilter',
+            'callback': info_filter,
+        },
+    },
+    'formatters': {
+        'simple': {
+            # 'format': '[%(asctime)s] %(levelname)s %(module)s: %(message)s',
+            'format': '[{asctime}] {levelname} {pathname} {lineno}: {message}',
+            'datefmt': '%Y.%m.%d %H:%M:%S',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console_dev': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+            'filters': ['require_debug_true'],
+        },
+        'console_prod': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+        },
+        'file': {
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': BASE_DIR / 'logs/django-site.log',
+            'maxBytes': 1048576,
+            'backupCount': 10,
+            'formatter': 'simple',
+            'encoding': 'utf-8',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console_dev', 'console_prod'],
+        },
+        'django.server': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'bboard': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': True,
+        }
+    },
+}

@@ -1,3 +1,5 @@
+import logging
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
@@ -34,8 +36,14 @@ from .forms import BbForm, RubricBaseFormSet, SearchForm
 from .models import Bb, Rubric
 
 
+logger = logging.getLogger(__name__)
+
+
 # @cache_page(60 * 5)
 def index(request):
+
+    logger.warning('Хаюшки!')
+
     bbs = Bb.objects.all()
 
     paginator = Paginator(bbs, 2, orphans=2)
