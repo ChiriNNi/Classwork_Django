@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.views import redirect_to_login
 from django.core.cache import caches, cache
 from django.core.exceptions import NON_FIELD_ERRORS
+from django.core.mail import send_mail
 from django.core.paginator import Paginator
 from django.db import transaction
 from django.db.models import Count
@@ -380,6 +381,7 @@ def search(request):
     return render(request, 'bboard/search.html', context)
 
 
+# Отправка писем
 def my_login(request):
     username = request.POST['username']
     password = request.POST['password']
@@ -387,11 +389,17 @@ def my_login(request):
     user = authenticate(request, username=username, password=password)
 
     if user is not None:
-        login(request, user)
         # Вход выполнен
+        subject = 'Восстановление пароля'
+        message = 'Здравствуйте, вы запросили восстановление пароля. Пожалуйста, пройдите по ссылке для сброса пароля.'
+        from_email = 'your_email@gmail.com'  #
+        recipient_list = [user.email]
+        send_mail(subject, message, from_email, recipient_list)
     else:
         # Вход не выполнен
-        pass
+        error_message = 'Неверное имя пользователя или пароль. Попробуйте еще раз.'
+        messages.error(request, error_message)
+        return redirect('login_url')
 
 
 def my_logout(request):
