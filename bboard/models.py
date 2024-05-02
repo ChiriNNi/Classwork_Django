@@ -160,8 +160,15 @@ class Bb(models.Model):
 
     # title_and_price.short_description = 'Название и цена'
 
+    @property
+    def requires_login(self):
+        # Пример проверки на необходимость логина для объекта Bb
+        return True
+
     class Meta:
         verbose_name_plural = 'Объявления'
         verbose_name = 'Объявление'
         ordering = ['-published', 'title']
         # order_with_respect_to = 'rubric'
+
+

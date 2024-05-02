@@ -17,8 +17,9 @@ from django.forms.formsets import ORDERING_FIELD_NAME
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
+from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
-from django.views.generic import RedirectView
+from django.views.generic import RedirectView, TemplateView
 from django.views.generic.dates import ArchiveIndexView, MonthArchiveView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -521,3 +522,13 @@ class APIRubricViewSet(ModelViewSet):
 # class APIRubricsViewSet(ReadOnlyModelViewSet):
 #     queryset = Rubric.objects.all()
 #     serializer_class = RubricSerializer
+
+# MIXIN
+# class LoginRequiredMixinMixin:
+#     @method_decorator(login_required)
+#     def dispatch(self, *args, **kwargs):
+#         return super().dispatch(*args, **kwargs)
+#
+#
+# class MyProtectedView(LoginRequiredMixinMixin, TemplateView):
+#     template_name = 'my_template.html'
