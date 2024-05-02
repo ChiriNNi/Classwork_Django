@@ -20,7 +20,6 @@ environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -34,7 +33,6 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
 ]
-
 
 # Application definition
 
@@ -117,7 +115,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'samplesite.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -133,12 +130,11 @@ DATABASES = {
         # "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": "postgres",
         "USER": "postgres",
-        "PASSWORD": "12345",
+        "PASSWORD": "123",
         "HOST": "127.0.0.1",
         "PORT": "5432",
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -179,7 +175,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
@@ -217,7 +212,6 @@ CAPTCHA_LENGTH = 4  # 6
 CAPTCHA_WORDS_DICTIONARY = '/static/captcha_words.txt'
 CAPTCHA_TIMEOUT = 5  # МИНУТ
 
-
 # DATA_UPLOAD_MAX_MEMORY_SIZE = 2621440  # 2.5 Mbytes
 # DATA_UPLOAD_MAX_NUMBER_FIELDS = 1000
 
@@ -229,7 +223,6 @@ BBCODE_DISABLE_BUILTIN_TAGS = False
 BBCODE_ALLOW_CUSTOM_TAGS = True
 BBCODE_ALLOW_SMILIES = True
 BBCODE_SMILIES_UPLOAD_TO = os.path.join('precise_bbcode', 'smilies')
-
 
 # BOOTSTRAP4 = {
 #     'horizontal_label_class': 'col-md-3',
@@ -271,7 +264,6 @@ THUMBNAIL_DEFAULT_OPTIONS = {
 }
 
 THUMBNAIL_PRESERVE_EXTENSION = True  # ('png',)
-
 
 # SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 # SESSION_ENGINE = 'django.contrib.sessions.backends.file'
@@ -324,6 +316,14 @@ CACHES = {
     #     }
     # },
     #
+    # REDIS
+    # 'default': {
+    #     'BACKEND': 'django_redis.cache.RedisCache',
+    #     'LOCATION': 'redis://localhost:6379/1',
+    #     'OPTIONS': {
+    #         'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+    #     },
+    # },
     'default': {
         'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
         'LOCATION': 'cache_table',

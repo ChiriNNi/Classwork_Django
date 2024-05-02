@@ -46,6 +46,12 @@ def index(request):
 
     bbs = Bb.objects.all()
 
+    # bbs = cache.get('bbs_cache_key') # --REDIS
+
+    # if bbs is None:
+    #     bbs = list(Bb.objects.all())
+    #     cache.set('bbs_cache_key', bbs, timeout=300)  # Кеширование данных на 5 минут --REDIS
+
     paginator = Paginator(bbs, 2, orphans=2)
     # paginator = Paginator(bbs, 1, orphans=0)
 
