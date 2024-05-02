@@ -30,6 +30,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
+from django.core.signing import Signer
 
 from bboard.serializers import RubricSerializer
 from .forms import BbForm, RubricBaseFormSet, SearchForm
@@ -205,6 +206,7 @@ class BbEditView(UpdateView):
         messages.add_message(self.request, messages.SUCCESS,
                              'Объявление исправлено!', extra_tags='first second')
         messages.add_message(self.request, CRITICAL, 'Случилось непоправимое!')
+        # messages.success(self.request, 'Объявление исправлено!') # Всплывающие уведомления
         return context
 
     def get_success_url(self):
@@ -220,6 +222,32 @@ class BbDeleteView(DeleteView):
     #     context['rubric'] = Rubric.objects.all()
     #     return context
 
+# Подпись данных
+# def edit(request, pk):
+#     bb = Bb.objects.get(pk=pk)
+#
+#     if request.method == 'POST':
+#         bbf = BbForm(request.POST, instance=bb)
+#         if bbf.is_valid():
+#             if bbf.has_changed():
+#                 signer = Signer()
+#                 signed_data = signer.sign(str(bbf.cleaned_data))  # Подпись данных
+#                 bbf.save()
+#                 return HttpResponseRedirect(
+#                     reverse('bboard:detail', kwargs={'pk': pk})
+#                 )
+#             else:
+#                 bbf.save()
+#                 return HttpResponseRedirect(
+#                     reverse('bboard:detail', kwargs={'pk': pk})
+#                 )
+#         else:
+#             context = {'form': bbf}
+#             return render(request, 'bboard/bb_form.html', context)
+#     else:
+#         bbf = BbForm(instance=bb)
+#         context = {'form': bbf}
+#         return render(request, 'bboard/bb_form.html', context)
 
 def edit(request, pk):
     bb = Bb.objects.get(pk=pk)
